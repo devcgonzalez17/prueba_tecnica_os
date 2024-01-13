@@ -4,12 +4,24 @@ class CrearCita extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Column(children: [
-        Text(
-          'Hello Wirld from form',
-        )
-      ]),
-    );
+        appBar: AppBar(
+          title: Text("Nueva Cita"),
+        ),
+        body: Padding(
+          padding: EdgeInsets.all(20.0),
+          child: Container(
+            child: Form(
+              child: Column(
+                children: [
+                  TextFormField(
+                    decoration: InputDecoration(
+                        labelText: "Nombre",
+                        hintText: "-ingresa el nombre del paciente"),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ));
   }
 }

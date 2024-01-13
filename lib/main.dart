@@ -24,8 +24,16 @@ class Home extends StatelessWidget {
       appBar: AppBar(title: const Text('Home')),
       body: Center(
           child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('Hello World!'),
+          Text(
+            'One System Medical Solutions',
+            style: TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(
+            height: 40,
+          ),
           ElevatedButton(
             onPressed: () {
               Navigator.of(context)

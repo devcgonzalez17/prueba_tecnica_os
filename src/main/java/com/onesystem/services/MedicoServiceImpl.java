@@ -51,5 +51,17 @@ public class MedicoServiceImpl implements MedicoService {
         medRep.deleteById(m.getDocumento());
         return (m);
     }
+    
+    public Medico activar (String documento) {
+        Medico medico = medRep.getById(documento);
+        medico.setEstado("Activo");
+        return medRep.save(medico);
+    }
+    
+    public Medico desactivar (String documento) {
+        Medico medico = medRep.getById(documento);
+        medico.setEstado("Inactivo");
+        return medRep.save(medico);
+    }
 
 }

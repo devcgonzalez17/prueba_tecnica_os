@@ -47,7 +47,7 @@ public class Paciente implements Serializable {
     private int telefono;
     @Lob
     @Column(name = "correo_electronico")
-    private Object correoElectronico;
+    private String correoElectronico;
     @Column(name = "estado")
     private String estado;
 

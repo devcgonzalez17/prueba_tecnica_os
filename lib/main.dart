@@ -1,4 +1,6 @@
 import 'package:app_prueba_tecnica/citas.dart';
+import 'package:app_prueba_tecnica/detalles.dart';
+import 'package:app_prueba_tecnica/medicos.dart';
 import 'package:flutter/material.dart';
 
 import 'forms/formCita.dart';
@@ -46,9 +48,9 @@ class Home extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => CrearCita()));
+                    .push(MaterialPageRoute(builder: (context) => Medicos()));
               },
-              child: Text('Crear Medico', style: TextStyle(fontSize: 24.0)),
+              child: Text('Ver Medicos', style: TextStyle(fontSize: 24.0)),
             ),
           if (true)
             ElevatedButton(

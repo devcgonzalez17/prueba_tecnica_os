@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:core';
 
+import 'package:app_prueba_tecnica/detalles.dart';
 import 'package:app_prueba_tecnica/models/citaModel.dart';
 import 'package:app_prueba_tecnica/models/medicoModel.dart';
 import 'package:app_prueba_tecnica/models/pacienteModel.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class Citas extends StatefulWidget {
   const Citas({super.key});
@@ -17,8 +19,6 @@ class Citas extends StatefulWidget {
 }
 
 class CitasState extends State<Citas> {
-  final _formKey = GlobalKey<FormState>();
-
   List<Cita> citasList = [];
 
   Future<List<Cita>> getCitas() async {
@@ -87,8 +87,24 @@ class CitasState extends State<Citas> {
                       itemCount: citasList.length,
                       itemBuilder: (context, index) {
                         return ListTile(
-                          title:
-                              Text(snapshot.data![index].numeroCita.toString()),
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => Detalles(),
+                                settings: RouteSettings(
+                                    arguments: detallesArguments(
+                                        cita: snapshot.data![index]))));
+                          },
+                          title: Text("#" +
+                              snapshot.data![index].numeroCita.toString() +
+                              " " +
+                              DateFormat('yyyy-MM-dd H:m')
+                                  .format(snapshot.data![index].horaCita)),
+                          subtitle: Text("Dr." +
+                              snapshot.data![index].documentoMedico.nombre
+                                  .toString() +
+                              snapshot.data![index].documentoMedico.apellidos
+                                  .toString() +
+                              ""),
                         );
                       },
                     );

@@ -27,4 +27,9 @@ public class CitaRestController {
     public List<Cita> findAll() {
         return citasvs.findAll();
     }
+
+    @GetMapping("/activas")
+    public List<Cita> findActivas() {
+        return citasvs.findActivas();
+    }
 }

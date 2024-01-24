@@ -5,8 +5,9 @@
 package com.onesystem.repositorios;
 
 import com.onesystem.entidades.Cita;
-import java.util.Optional;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  *
@@ -14,4 +15,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface CitaRepositorio extends JpaRepository<Cita, String> {
 
+    @Query(value = "SELECT * FROM cita c WHERE c.estado = 'Activo'", nativeQuery = true)
+    public List<Cita> findActiveCitas();
 }

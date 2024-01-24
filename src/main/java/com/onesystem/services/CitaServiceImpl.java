@@ -47,5 +47,10 @@ public class CitaServiceImpl implements CitaService {
         citaRepo.deleteById(m.getNumeroCita().toString());
         return (m);
     }
+
+    @Override
+    public List<Cita> findActivas() {
+        return citaRepo.findActiveCitas();
+    }
     
 }

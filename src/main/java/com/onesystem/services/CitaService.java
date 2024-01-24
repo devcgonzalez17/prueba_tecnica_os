@@ -15,6 +15,8 @@ import java.util.Optional;
 public interface CitaService {
 
     public List<Cita> findAll();
+    
+    public List<Cita> findActivas();
 
     public Optional<Cita> findAllById(Integer numero_cita);
 

@@ -4,7 +4,7 @@
  */
 package com.onesystem.services;
 
-import com.onesystem.entidades.Medico;
+import com.onesystem.entidades.Paciente;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,15 +12,15 @@ import java.util.Optional;
  *
  * @author ADMIN
  */
-public interface MedicoService {
+public interface PacienteService {
 
-    public List<Medico> findAll();
+    public List<Paciente> findAll();
 
-    public Optional<Medico> findAllById(String documento);
+    public Optional<Paciente> findAllById(String documento);
 
-    public Medico add(Medico m);
+    public Paciente add(Paciente m);
 
-    public Medico update(Medico m);
+    public Paciente update(Paciente m);
 
-    public Medico delet(Medico m);
+    public Paciente delet(Paciente m);
 }

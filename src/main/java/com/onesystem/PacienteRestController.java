@@ -4,27 +4,23 @@
  */
 package com.onesystem;
 
-import com.onesystem.entidades.Cita;
-import com.onesystem.services.CitaService;
+import com.onesystem.entidades.Paciente;
+import com.onesystem.services.PacienteService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- *
- * @author ADMIN
- */
 @RestController
-@RequestMapping("/citas")
-public class CitaRestController {
+@RequestMapping("/paciente")
+public class PacienteRestController {
 
     @Autowired
-    private CitaService citasvs;
+    private PacienteService pacientesvs;
 
-    @GetMapping("/all")
-    public List<Cita> findAll() {
-        return citasvs.findAll();
+    @GetMapping
+    public List<Paciente> findAll() {
+        return pacientesvs.findAll();
     }
 }

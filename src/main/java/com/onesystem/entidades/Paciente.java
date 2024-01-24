@@ -45,7 +45,7 @@ public class Paciente implements Serializable {
     private String direccion;
     @Column(name = "telefono")
     private int telefono;
-    @Lob
+    //@Lob
     @Column(name = "correo_electronico")
     private String correoElectronico;
     @Column(name = "estado")

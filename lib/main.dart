@@ -1,6 +1,7 @@
+import 'package:app_prueba_tecnica/citas.dart';
 import 'package:flutter/material.dart';
 
-import 'formCita.dart';
+import 'forms/formCita.dart';
 
 void main() {
   runApp(const MainApp());
@@ -21,7 +22,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Home')),
+      appBar: AppBar(title: const Text('Prueba Tecnica')),
       body: Center(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -37,10 +38,26 @@ class Home extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => CrearCita()));
+                  .push(MaterialPageRoute(builder: (context) => Citas()));
             },
-            child: Text('Crear Cita', style: TextStyle(fontSize: 24.0)),
-          )
+            child: Text('Ver Citas', style: TextStyle(fontSize: 24.0)),
+          ),
+          if (true)
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => CrearCita()));
+              },
+              child: Text('Crear Medico', style: TextStyle(fontSize: 24.0)),
+            ),
+          if (true)
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => CrearCita()));
+              },
+              child: Text('Crear Paciente', style: TextStyle(fontSize: 24.0)),
+            )
         ],
       )),
     );

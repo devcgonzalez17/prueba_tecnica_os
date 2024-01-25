@@ -94,48 +94,23 @@ class citaServiceImpl extends CitaService {
   }
 
   @override
-  Future<Cita> newCita(Cita c) async {
+  Future<int> newCita(Cita c) async {
     late Cita cita;
+    Map<String, dynamic> citaJson = c.toJson();
+    print(jsonEncode(citaJson));
+
     final response = await http.post(
       Uri.parse("$uriBase/citas/create"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<Cita>{c}),
+      body: jsonEncode(citaJson),
     );
-    if (response.statusCode == 200) {
-      var i = jsonDecode(response.body.toString());
-      Medico medico = Medico(
-        i['documentoMedico']['documento'],
-        i['documentoMedico']['nombre'],
-        i['documentoMedico']['apellidos'],
-        i['documentoMedico']['telefono'],
-        i['documentoMedico']['correoElectronico'],
-        i['documentoMedico']['estado'],
-      );
-
-      Paciente paciente = Paciente(
-        i['documentoPaciente']['documento'],
-        i['documentoPaciente']['nombre'],
-        i['documentoPaciente']['apellidos'],
-        DateTime.parse(i['documentoPaciente']['fechaDeNacimiento']),
-        i['documentoPaciente']['direccion'],
-        i['documentoPaciente']['telefono'],
-        i['documentoPaciente']['correoElectronico'],
-        i['documentoPaciente']['estado'],
-      );
-
-      cita = Cita(
-        DateTime.parse(i['fechaCita']),
-        DateTime.parse(i['horaCita']),
-        i['estado'],
-        medico,
-        paciente,
-        i['numeroCita'],
-        i['observaciones'],
-      );
+    if (response.statusCode != 200) {
+      print(response.body);
+    } else {
+      print(response.body);
     }
-
-    return cita;
+    return response.statusCode;
   }
 }

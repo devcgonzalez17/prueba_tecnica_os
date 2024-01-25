@@ -1,11 +1,12 @@
-import 'dart:convert';
-
+import 'package:app_prueba_tecnica/main.dart';
+import 'package:app_prueba_tecnica/models/citaModel.dart';
 import 'package:app_prueba_tecnica/models/medicoModel.dart';
+import 'package:app_prueba_tecnica/models/pacienteModel.dart';
+import 'package:app_prueba_tecnica/services/citaServiceImpl.dart';
+import 'package:app_prueba_tecnica/services/medicoServiceImpl.dart';
+import 'package:app_prueba_tecnica/services/pacienteServiceImpl.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-
-import 'package:http/http.dart' as http;
 
 class CrearCita extends StatefulWidget {
   const CrearCita({super.key});
@@ -23,13 +24,26 @@ class CrearCitaState extends State<CrearCita> {
 
   List<Medico> medicosList = [];
   Future<List<Medico>> getMedicos() async {
-
+    medicosList = await medicoServiceImpl().getMedicos();
     return medicosList;
   }
 
-  String dropdownValue = "";
+  List<Paciente> pacientesList = [];
+  Future<List<Paciente>> getPacientes() async {
+    pacientesList = await pacienteServiceImpl().getPacientes();
+    return pacientesList;
+  }
+
+  List<DateTime> horas = [DateTime.now()];
+  List<String> estados = ["Ocupado", "Disponible", "Rechazada", "Cancelada"];
+
+  late Medico dropdownMedicoValue;
+  late Paciente dropdownPacienteValue;
+  late DateTime dropdownHoraValue;
+  late String dropdownEstadoValue;
 
   TextEditingController dateInput = TextEditingController();
+  TextEditingController observaciones = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -49,13 +63,16 @@ class CrearCitaState extends State<CrearCita> {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return Container(
+                          padding: EdgeInsets.symmetric(vertical: 10.0),
+                          width: double.maxFinite,
                           child: DropdownMenu<Medico>(
+                            label: Text("Medico"),
+                            width: 370.0,
                             initialSelection: medicosList.first,
                             onSelected: (Medico? value) {
                               // This is called when the user selects an item.
                               setState(() {
-                                dropdownValue = value!.documento;
-                                print(dropdownValue);
+                                dropdownMedicoValue = value!;
                               });
                             },
                             dropdownMenuEntries: snapshot.data!
@@ -66,43 +83,41 @@ class CrearCitaState extends State<CrearCita> {
                           ),
                         );
                       }
-                      return Center(
+                      return const Center(
                         child: CircularProgressIndicator(),
                       );
                     },
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10.0),
-                    child: TextFormField(
-                        decoration: InputDecoration(
-                          labelText: "Documento del Medico",
-                          hintText:
-                              "-Ingresa el numero de documento del medico",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
+                  FutureBuilder(
+                    future: getPacientes(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Container(
+                          padding: EdgeInsets.symmetric(vertical: 10.0),
+                          width: double.maxFinite,
+                          child: DropdownMenu<Paciente>(
+                            label: Text("Paciente"),
+                            width: 370.0,
+                            initialSelection: pacientesList.first,
+                            onSelected: (Paciente? value) {
+                              // This is called when the user selects an item.
+                              setState(() {
+                                dropdownPacienteValue = value!;
+                              });
+                            },
+                            dropdownMenuEntries: snapshot.data!
+                                .map<DropdownMenuEntry<Paciente>>(
+                                    (Paciente value) {
+                              return DropdownMenuEntry<Paciente>(
+                                  value: value, label: value.nombre);
+                            }).toList(),
                           ),
-                        ),
-                        keyboardType: TextInputType.number,
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.digitsOnly
-                        ]),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10.0),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        labelText: "Documento del paciente",
-                        hintText:
-                            "-Ingresa el numero de documento del paciente",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                      ),
-                      keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly
-                      ],
-                    ),
+                        );
+                      }
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
                   ),
                   Row(
                     mainAxisSize: MainAxisSize.min,
@@ -136,15 +151,12 @@ class CrearCitaState extends State<CrearCita> {
                                   lastDate: DateTime(2100));
 
                               if (pickedDate != null) {
-                                print(
-                                    pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
                                 String formattedDate =
                                     DateFormat('yyyy-MM-dd').format(pickedDate);
-                                print(
-                                    formattedDate); //formatted date output using intl package =>  2021-03-16
-
                                 setState(() {
                                   dateInput.text = formattedDate;
+
+                                  buildHoras(formattedDate);
                                 });
                               } else {}
                             },
@@ -152,24 +164,22 @@ class CrearCitaState extends State<CrearCita> {
                         ),
                       ),
                       Flexible(
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              top: 10.0, bottom: 10.0, left: 10.0),
-                          child: TextFormField(
-                            validator: (val) {
-                              if (val == null || val.isEmpty) {
-                                return "Por favor selecciona la hora de la cita";
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              labelText: "Hora de la cita",
-                              hintText: "-Selecciona la hora de la cita",
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                            ),
-                          ),
+                        child: DropdownMenu<DateTime>(
+                          label: Text("Selecciona la hora"),
+                          initialSelection: horas.first,
+                          onSelected: (DateTime? value) {
+                            // This is called when the user selects an item.
+                            setState(() {
+                              dropdownHoraValue = value!;
+                            });
+                          },
+                          dropdownMenuEntries: horas
+                              .map<DropdownMenuEntry<DateTime>>(
+                                  (DateTime value) {
+                            return DropdownMenuEntry<DateTime>(
+                                value: value,
+                                label: DateFormat('H:mm').format(value));
+                          }).toList(),
                         ),
                       )
                     ],
@@ -177,6 +187,7 @@ class CrearCitaState extends State<CrearCita> {
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 10.0),
                     child: TextFormField(
+                      controller: observaciones,
                       decoration: InputDecoration(
                         labelText: "Observaciones",
                         hintText: "-Ingresa observaciones de la cita",
@@ -188,48 +199,78 @@ class CrearCitaState extends State<CrearCita> {
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 10.0),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        labelText: "Estado de la cita",
-                        hintText: "-Ingresa el nombre del paciente",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                      ),
+                    child: DropdownMenu<String>(
+                      label: Text("Estado"),
+                      width: 370.0,
+                      initialSelection: estados.first,
+                      onSelected: (String? value) {
+                        // This is called when the user selects an item.
+                        setState(() {
+                          dropdownEstadoValue = value!;
+                        });
+                      },
+                      dropdownMenuEntries: estados
+                          .map<DropdownMenuEntry<String>>((String value) {
+                        return DropdownMenuEntry<String>(
+                            value: value, label: value);
+                      }).toList(),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10.0),
-                    child: TextFormField(
-                      validator: (val) {
-                        if (val == null || val.isEmpty) {
-                          return "Por favor selecciona la fecha de la cita";
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        labelText: "Nombre",
-                        hintText: "-Ingresa el documento del paciente",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                      ),
-                    ),
+                  SizedBox(
+                    height: 40,
                   ),
                   ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Processing Data')),
+                          const SnackBar(
+                              content: Text('Guardando Información')),
                         );
+                        Cita cita = buildCita();
+                        int response = await citaServiceImpl().newCita(cita);
+                        if (response == 200) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Guardado correctamente')),
+                          );
+                          Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) => Home()));
+                        }
                       }
                     },
-                    child: const Text('Submit'),
+                    child: const Text('Guardar'),
                   ),
                 ],
               ),
             ),
           ),
         ));
+  }
+
+  buildHoras(String fecha) {
+    DateTime dateFecha = DateTime.parse(fecha);
+    horas = [DateTime.now()];
+    for (int i = 8; i < 19; i++) {
+      DateTime hora = DateTime(
+          int.parse(DateFormat('yyyy').format(dateFecha)),
+          int.parse(DateFormat('MM').format(dateFecha)),
+          int.parse(DateFormat('dd').format(dateFecha)),
+          i);
+      horas.add(hora);
+    }
+  }
+
+  Cita buildCita() {
+    Cita cita = Cita(
+      DateTime.parse(dateInput.text),
+      dropdownHoraValue,
+      dropdownEstadoValue,
+      dropdownMedicoValue,
+      dropdownPacienteValue,
+      0,
+      observaciones.text,
+    );
+    print(cita);
+    return cita;
   }
 }

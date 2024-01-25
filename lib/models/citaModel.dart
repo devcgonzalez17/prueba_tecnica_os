@@ -33,4 +33,13 @@ class Cita {
   Cita(this.fechaCita, this.horaCita, this.estado, this.documentoMedico,
       this.documentoPaciente,
       [this.numeroCita, this.observaciones]);
+
+  Map<String, dynamic> toJson() => {
+        'fechaCita': fechaCita.toIso8601String(),
+        'horaCita': horaCita.toIso8601String(),
+        'observaciones': observaciones,
+        'estado': estado,
+        'documentoMedico': documentoMedico.toJson(),
+        'documentoPaciente': documentoPaciente.toJson(),
+      };
 }

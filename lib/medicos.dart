@@ -69,10 +69,13 @@ class MedicosState extends State<Medicos> {
                                     arguments: detallesArguments(
                                         medico: snapshot.data![index]))));
                           },
-                          title: Text("Dr(a). " +
-                              snapshot.data![index].nombre.toString() +
-                              " " +
-                              snapshot.data![index].apellidos.toString()),
+                          title: Text(
+                            "Dr(a). " +
+                                snapshot.data![index].nombre.toString() +
+                                " " +
+                                snapshot.data![index].apellidos.toString(),
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
                           subtitle: Text("CC: " +
                               snapshot.data![index].documento.toString() +
                               ""),

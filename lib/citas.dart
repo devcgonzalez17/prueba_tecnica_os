@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:core';
 
 import 'package:app_prueba_tecnica/detalles.dart';
+import 'package:app_prueba_tecnica/forms/formCita.dart';
 import 'package:app_prueba_tecnica/models/citaModel.dart';
 import 'package:app_prueba_tecnica/models/medicoModel.dart';
 import 'package:app_prueba_tecnica/models/pacienteModel.dart';
@@ -71,15 +72,15 @@ class CitasState extends State<Citas> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Citas"),
-        ),
-        body: Padding(
-          padding: EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              Expanded(
-                  child: FutureBuilder(
+      appBar: AppBar(
+        title: Text("Citas"),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            Expanded(
+              child: FutureBuilder(
                 future: getCitas(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
@@ -94,11 +95,14 @@ class CitasState extends State<Citas> {
                                     arguments: detallesArguments(
                                         cita: snapshot.data![index]))));
                           },
-                          title: Text("#" +
-                              snapshot.data![index].numeroCita.toString() +
-                              " " +
-                              DateFormat('yyyy-MM-dd H:m')
-                                  .format(snapshot.data![index].horaCita)),
+                          title: Text(
+                            "#" +
+                                snapshot.data![index].numeroCita.toString() +
+                                " " +
+                                DateFormat('yyyy-MM-dd H:m')
+                                    .format(snapshot.data![index].horaCita),
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
                           subtitle: Text("Dr." +
                               snapshot.data![index].documentoMedico.nombre
                                   .toString() +
@@ -113,9 +117,21 @@ class CitasState extends State<Citas> {
                     child: CircularProgressIndicator(),
                   );
                 },
-              )),
-            ],
-          ),
-        ));
+              ),
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => CrearCita()));
+              },
+              child: Text('Agregar Cita', style: TextStyle(fontSize: 24.0)),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -1,6 +1,11 @@
+import 'dart:convert';
+
+import 'package:app_prueba_tecnica/models/medicoModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+
+import 'package:http/http.dart' as http;
 
 class CrearCita extends StatefulWidget {
   const CrearCita({super.key});
@@ -13,6 +18,33 @@ class CrearCita extends StatefulWidget {
 
 class CrearCitaState extends State<CrearCita> {
   final _formKey = GlobalKey<FormState>();
+
+  List<String> medicosNombres = <String>[];
+
+  List<Medico> medicosList = [];
+  Future<List<Medico>> getMedicos() async {
+    final response =
+        await http.get(Uri.parse("http://192.168.56.1:8095/osapi/medico"));
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body.toString());
+      //print(data);
+      for (Map i in data) {
+        Medico medico = Medico(
+          i['documento'],
+          i['nombre'],
+          i['apellidos'],
+          i['telefono'],
+          i['correoElectronico'],
+          i['estado'],
+        );
+        medicosList.add(medico);
+        medicosNombres.add("" + medico.nombre + " " + medico.apellidos);
+      }
+    }
+    return medicosList;
+  }
+
+  String dropdownValue = "";
 
   TextEditingController dateInput = TextEditingController();
 
@@ -29,6 +61,33 @@ class CrearCitaState extends State<CrearCita> {
               key: _formKey,
               child: Column(
                 children: [
+                  FutureBuilder(
+                    future: getMedicos(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Container(
+                          child: DropdownMenu<Medico>(
+                            initialSelection: medicosList.first,
+                            onSelected: (Medico? value) {
+                              // This is called when the user selects an item.
+                              setState(() {
+                                dropdownValue = value!.documento;
+                                print(dropdownValue);
+                              });
+                            },
+                            dropdownMenuEntries: snapshot.data!
+                                .map<DropdownMenuEntry<Medico>>((Medico value) {
+                              return DropdownMenuEntry<Medico>(
+                                  value: value, label: value.nombre);
+                            }).toList(),
+                          ),
+                        );
+                      }
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
+                  ),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 10.0),
                     child: TextFormField(
@@ -167,7 +226,7 @@ class CrearCitaState extends State<CrearCita> {
                       },
                       decoration: InputDecoration(
                         labelText: "Nombre",
-                        hintText: "-Ingresa el nombre del paciente",
+                        hintText: "-Ingresa el documento del paciente",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
                         ),

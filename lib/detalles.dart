@@ -31,107 +31,121 @@ class Detalles extends StatelessWidget {
           child: Container(
             child: Column(
               children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                  child: TextField(
-                    enabled: false,
-                    decoration: InputDecoration(
-                      labelText: "Cita #" + args.cita!.numeroCita.toString(),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
+                Container(
+                  width: double.maxFinite,
+                  margin: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(3.0),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.blueAccent),
+                  ),
+                  //padding: EdgeInsets.symmetric(vertical: 10.0),
+                  child: Center(
+                      child: Text(
+                    "Cita #" + args.cita!.numeroCita.toString(),
+                    style: TextStyle(fontSize: 20),
+                  )),
+                ),
+                Container(
+                  width: double.maxFinite,
+                  padding: EdgeInsets.symmetric(vertical: 15.0),
+                  margin: EdgeInsets.symmetric(vertical: 15.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color.fromARGB(255, 111, 1, 1),
                       ),
-                    ),
+                      borderRadius: BorderRadius.circular(8.0)),
+                  child: Text(
+                    "Medico: " +
+                        args.cita!.documentoMedico.nombre.toString() +
+                        " " +
+                        args.cita!.documentoMedico.apellidos.toString(),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                  child: TextField(
-                    enabled: false,
-                    decoration: InputDecoration(
-                      labelText: "Medico: " +
-                          args.cita!.documentoMedico.nombre.toString() +
-                          " " +
-                          args.cita!.documentoMedico.apellidos.toString(),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
+                Container(
+                  width: double.maxFinite,
+                  padding: EdgeInsets.symmetric(vertical: 15.0),
+                  margin: EdgeInsets.symmetric(vertical: 15.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color.fromARGB(255, 111, 1, 1),
                       ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                  child: TextField(
-                    enabled: false,
-                    decoration: InputDecoration(
-                      labelText: "Paciente: " +
-                          args.cita!.documentoPaciente.nombre.toString() +
-                          " " +
-                          args.cita!.documentoPaciente.apellidos.toString(),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                    ),
+                      borderRadius: BorderRadius.circular(8.0)),
+                  child: Text(
+                    "Paciente: " +
+                        args.cita!.documentoPaciente.nombre.toString() +
+                        " " +
+                        args.cita!.documentoPaciente.apellidos.toString(),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                 ),
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Flexible(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10.0),
-                        child: TextField(
-                          enabled: false,
-                          decoration: InputDecoration(
-                            labelText: "Fecha: " +
-                                DateFormat('yyyy-MM-dd')
-                                    .format(args.cita!.fechaCita),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
+                        child: Container(
+                      width: double.maxFinite,
+                      padding: EdgeInsets.symmetric(vertical: 15.0),
+                      margin: EdgeInsets.only(top: 15, bottom: 15, right: 5),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Color.fromARGB(255, 111, 1, 1),
                           ),
+                          borderRadius: BorderRadius.circular(8.0)),
+                      child: Text(
+                        "Fecha: " +
+                            DateFormat('yyyy-MM-dd')
+                                .format(args.cita!.fechaCita),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 15),
+                      ),
+                    )),
+                    Flexible(
+                      child: Container(
+                        width: double.maxFinite,
+                        padding: EdgeInsets.symmetric(vertical: 15.0),
+                        margin: EdgeInsets.only(top: 15, bottom: 15, left: 5),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Color.fromARGB(255, 111, 1, 1),
+                            ),
+                            borderRadius: BorderRadius.circular(8.0)),
+                        child: Text(
+                          "Hora: " +
+                              DateFormat('H:mm').format(args.cita!.horaCita),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 15),
                         ),
                       ),
                     ),
-                    Flexible(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10.0),
-                        child: TextField(
-                          enabled: false,
-                          decoration: InputDecoration(
-                            labelText: "Hora: " +
-                                DateFormat('H:m').format(args.cita!.horaCita),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
                   ],
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                  child: TextField(
-                    enabled: false,
-                    decoration: InputDecoration(
-                      labelText: "Observaciones: " +
-                          args.cita!.observaciones.toString(),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
+                Container(
+                  width: double.maxFinite,
+                  padding: EdgeInsets.symmetric(vertical: 15.0),
+                  margin: EdgeInsets.symmetric(vertical: 15.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color.fromARGB(255, 111, 1, 1),
                       ),
-                    ),
+                      borderRadius: BorderRadius.circular(8.0)),
+                  child: Text(
+                    "Observaciones: " + args.cita!.observaciones.toString(),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                  child: TextField(
-                    enabled: false,
-                    decoration: InputDecoration(
-                      labelText: "Estado: " + args.cita!.estado.toString(),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
+                Container(
+                  width: double.maxFinite,
+                  padding: EdgeInsets.symmetric(vertical: 15.0),
+                  margin: EdgeInsets.symmetric(vertical: 15.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color.fromARGB(255, 111, 1, 1),
                       ),
-                    ),
+                      borderRadius: BorderRadius.circular(8.0)),
+                  child: Text(
+                    "Estado: " + args.cita!.estado.toString(),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                 ),
                 ElevatedButton(
@@ -155,75 +169,89 @@ class Detalles extends StatelessWidget {
           child: Container(
             child: Column(
               children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                  child: TextField(
-                    enabled: false,
-                    decoration: InputDecoration(
-                      labelText:
-                          "Documento: " + args.medico!.documento.toString(),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
+                Container(
+                  width: double.maxFinite,
+                  padding: EdgeInsets.symmetric(vertical: 15.0),
+                  margin: EdgeInsets.symmetric(vertical: 15.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color.fromARGB(255, 111, 79, 238),
                       ),
-                    ),
+                      borderRadius: BorderRadius.circular(8.0)),
+                  child: Text(
+                    "Documento: " + args.medico!.documento.toString(),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      labelText: "Nombre: " + args.medico!.nombre.toString(),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
+                Container(
+                  width: double.maxFinite,
+                  padding: EdgeInsets.symmetric(vertical: 15.0),
+                  margin: EdgeInsets.symmetric(vertical: 15.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color.fromARGB(255, 111, 79, 238),
                       ),
-                    ),
+                      borderRadius: BorderRadius.circular(8.0)),
+                  child: Text(
+                    "Nombre: " + args.medico!.nombre.toString(),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      labelText:
-                          "Apellidos: " + args.medico!.apellidos.toString(),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
+                Container(
+                  width: double.maxFinite,
+                  padding: EdgeInsets.symmetric(vertical: 15.0),
+                  margin: EdgeInsets.symmetric(vertical: 15.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color.fromARGB(255, 111, 79, 238),
                       ),
-                    ),
+                      borderRadius: BorderRadius.circular(8.0)),
+                  child: Text(
+                    "Apellidos: " + args.medico!.apellidos.toString(),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      labelText:
-                          "Teléfono: " + args.medico!.telefono.toString(),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
+                Container(
+                  width: double.maxFinite,
+                  padding: EdgeInsets.symmetric(vertical: 15.0),
+                  margin: EdgeInsets.symmetric(vertical: 15.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color.fromARGB(255, 111, 79, 238),
                       ),
-                    ),
+                      borderRadius: BorderRadius.circular(8.0)),
+                  child: Text(
+                    "Teléfono: " + args.medico!.telefono.toString(),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      labelText: "Correo Electronico: " +
-                          args.medico!.correoElectronico.toString(),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
+                Container(
+                  width: double.maxFinite,
+                  padding: EdgeInsets.symmetric(vertical: 15.0),
+                  margin: EdgeInsets.symmetric(vertical: 15.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color.fromARGB(255, 111, 79, 238),
                       ),
-                    ),
+                      borderRadius: BorderRadius.circular(8.0)),
+                  child: Text(
+                    "Correo Electronico: " +
+                        args.medico!.correoElectronico.toString(),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      labelText: "Estado: " + args.medico!.estado.toString(),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
+                Container(
+                  width: double.maxFinite,
+                  padding: EdgeInsets.symmetric(vertical: 15.0),
+                  margin: EdgeInsets.symmetric(vertical: 15.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color.fromARGB(255, 111, 79, 238),
                       ),
-                    ),
+                      borderRadius: BorderRadius.circular(8.0)),
+                  child: Text(
+                    "Estado: " + args.medico!.estado.toString(),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                 ),
                 ElevatedButton(
@@ -247,100 +275,119 @@ class Detalles extends StatelessWidget {
           child: Container(
             child: Column(
               children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                  child: TextField(
-                    enabled: false,
-                    decoration: InputDecoration(
-                      labelText:
-                          "Documento: " + args.paciente!.documento.toString(),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
+                Container(
+                  width: double.maxFinite,
+                  padding: EdgeInsets.symmetric(vertical: 15.0),
+                  margin: EdgeInsets.symmetric(vertical: 15.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color.fromARGB(255, 5, 111, 1),
                       ),
-                    ),
+                      borderRadius: BorderRadius.circular(8.0)),
+                  child: Text(
+                    "Documento: " + args.paciente!.documento.toString(),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      labelText: "Nombre: " + args.paciente!.nombre.toString(),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
+                Container(
+                  width: double.maxFinite,
+                  padding: EdgeInsets.symmetric(vertical: 15.0),
+                  margin: EdgeInsets.symmetric(vertical: 15.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color.fromARGB(255, 5, 111, 1),
                       ),
-                    ),
+                      borderRadius: BorderRadius.circular(8.0)),
+                  child: Text(
+                    "Nombre: " + args.paciente!.nombre.toString(),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      labelText:
-                          "Apellidos: " + args.paciente!.apellidos.toString(),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
+                Container(
+                  width: double.maxFinite,
+                  padding: EdgeInsets.symmetric(vertical: 15.0),
+                  margin: EdgeInsets.symmetric(vertical: 15.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color.fromARGB(255, 5, 111, 1),
                       ),
-                    ),
+                      borderRadius: BorderRadius.circular(8.0)),
+                  child: Text(
+                    "Apellidos: " + args.paciente!.apellidos.toString(),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      labelText: "Fecha de nacimiento: " +
-                          DateFormat.yMMMMd('en_US')
-                              .format(args.paciente!.fechaDeNacimento),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
+                Container(
+                  width: double.maxFinite,
+                  padding: EdgeInsets.symmetric(vertical: 15.0),
+                  margin: EdgeInsets.symmetric(vertical: 15.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color.fromARGB(255, 5, 111, 1),
                       ),
-                    ),
+                      borderRadius: BorderRadius.circular(8.0)),
+                  child: Text(
+                    "Fecha de nacimiento: " +
+                        DateFormat.yMMMMd('en_US')
+                            .format(args.paciente!.fechaDeNacimento),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      labelText:
-                          "Dirección: " + args.paciente!.direccion.toString(),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
+                Container(
+                  width: double.maxFinite,
+                  padding: EdgeInsets.symmetric(vertical: 15.0),
+                  margin: EdgeInsets.symmetric(vertical: 15.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color.fromARGB(255, 5, 111, 1),
                       ),
-                    ),
+                      borderRadius: BorderRadius.circular(8.0)),
+                  child: Text(
+                    "Dirección: " + args.paciente!.direccion.toString(),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      labelText:
-                          "Teléfono: " + args.paciente!.telefono.toString(),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
+                Container(
+                  width: double.maxFinite,
+                  padding: EdgeInsets.symmetric(vertical: 15.0),
+                  margin: EdgeInsets.symmetric(vertical: 15.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color.fromARGB(255, 5, 111, 1),
                       ),
-                    ),
+                      borderRadius: BorderRadius.circular(8.0)),
+                  child: Text(
+                    "Teléfono: " + args.paciente!.telefono.toString(),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      labelText: "Correo Electronico: " +
-                          args.paciente!.correoElectronico.toString(),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
+                Container(
+                  width: double.maxFinite,
+                  padding: EdgeInsets.symmetric(vertical: 15.0),
+                  margin: EdgeInsets.symmetric(vertical: 15.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color.fromARGB(255, 5, 111, 1),
                       ),
-                    ),
+                      borderRadius: BorderRadius.circular(8.0)),
+                  child: Text(
+                    "Correo Electronico: " +
+                        args.paciente!.correoElectronico.toString(),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      labelText: "Estado: " + args.paciente!.estado.toString(),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
+                Container(
+                  width: double.maxFinite,
+                  padding: EdgeInsets.symmetric(vertical: 15.0),
+                  margin: EdgeInsets.symmetric(vertical: 15.0),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color.fromARGB(255, 5, 111, 1),
                       ),
-                    ),
+                      borderRadius: BorderRadius.circular(8.0)),
+                  child: Text(
+                    "Estado: " + args.paciente!.estado.toString(),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                 ),
                 ElevatedButton(

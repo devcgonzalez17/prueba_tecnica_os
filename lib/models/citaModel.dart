@@ -34,6 +34,14 @@ class Cita {
       this.documentoPaciente,
       [this.numeroCita, this.observaciones]);
 
+  Cita.fromMap(Map<String, dynamic> item)
+      : fechaCita = DateTime.parse(item['fechaCita']),
+        horaCita = DateTime.parse(item['horaCita']),
+        estado = item['estado'],
+        documentoMedico = item['documentoMedico'],
+        documentoPaciente = item['documentoPaciente'],
+        numeroCita = item['numeroCita'],
+        observaciones = item['observaciones'];
   Map<String, dynamic> toJson() => {
         'fechaCita': fechaCita.toIso8601String(),
         'horaCita': horaCita.toIso8601String(),

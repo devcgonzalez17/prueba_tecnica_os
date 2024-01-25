@@ -51,7 +51,7 @@ class citaServiceImpl extends CitaService {
   @override
   Future<List<Cita>> getCitas() async {
     List<Cita> citasList = [];
-    final response = await http.get(Uri.parse("/citas/all"));
+    final response = await http.get(Uri.parse("$uriBase/citas/all"));
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body.toString());
       //print(data);

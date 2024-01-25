@@ -23,24 +23,7 @@ class CrearCitaState extends State<CrearCita> {
 
   List<Medico> medicosList = [];
   Future<List<Medico>> getMedicos() async {
-    final response =
-        await http.get(Uri.parse("http://192.168.56.1:8095/osapi/medico"));
-    if (response.statusCode == 200) {
-      var data = jsonDecode(response.body.toString());
-      //print(data);
-      for (Map i in data) {
-        Medico medico = Medico(
-          i['documento'],
-          i['nombre'],
-          i['apellidos'],
-          i['telefono'],
-          i['correoElectronico'],
-          i['estado'],
-        );
-        medicosList.add(medico);
-        medicosNombres.add("" + medico.nombre + " " + medico.apellidos);
-      }
-    }
+
     return medicosList;
   }
 

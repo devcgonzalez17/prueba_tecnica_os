@@ -3,6 +3,7 @@ import 'dart:core';
 
 import 'package:app_prueba_tecnica/detalles.dart';
 import 'package:app_prueba_tecnica/models/medicoModel.dart';
+import 'package:app_prueba_tecnica/services/medicoServiceImpl.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,27 +20,7 @@ class MedicosState extends State<Medicos> {
   List<Medico> medicosList = [];
 
   Future<List<Medico>> getMedicos() async {
-    print("inicio de get medicos");
-    final response =
-        await http.get(Uri.parse("http://192.168.56.1:8095/osapi/medico"));
-    print(response.statusCode);
-    if (response.statusCode == 200) {
-      var data = jsonDecode(response.body.toString());
-      //print(data);
-      for (Map i in data) {
-        Medico medico = Medico(
-          i['documento'],
-          i['nombre'],
-          i['apellidos'],
-          i['telefono'],
-          i['correoElectronico'],
-          i['estado'],
-        );
-        print(medico);
-        medicosList.add(medico);
-        print(medicosList);
-      }
-    }
+    medicosList = await medicoServiceImpl().getMedicos();
     return medicosList;
   }
 

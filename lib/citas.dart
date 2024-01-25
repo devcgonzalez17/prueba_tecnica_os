@@ -6,6 +6,7 @@ import 'package:app_prueba_tecnica/forms/formCita.dart';
 import 'package:app_prueba_tecnica/models/citaModel.dart';
 import 'package:app_prueba_tecnica/models/medicoModel.dart';
 import 'package:app_prueba_tecnica/models/pacienteModel.dart';
+import 'package:app_prueba_tecnica/services/citaServiceImpl.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -23,49 +24,7 @@ class CitasState extends State<Citas> {
   List<Cita> citasList = [];
 
   Future<List<Cita>> getCitas() async {
-    print("inicio de get citas");
-    final response =
-        await http.get(Uri.parse("http://192.168.56.1:8095/osapi/citas/all"));
-    print(response.statusCode);
-    if (response.statusCode == 200) {
-      var data = jsonDecode(response.body.toString());
-      //print(data);
-      for (Map i in data) {
-        Medico medico = Medico(
-          i['documentoMedico']['documento'],
-          i['documentoMedico']['nombre'],
-          i['documentoMedico']['apellidos'],
-          i['documentoMedico']['telefono'],
-          i['documentoMedico']['correoElectronico'],
-          i['documentoMedico']['estado'],
-        );
-        print(medico);
-
-        print(i['documentoPaciente']);
-        Paciente paciente = Paciente(
-          i['documentoPaciente']['documento'],
-          i['documentoPaciente']['nombre'],
-          i['documentoPaciente']['apellidos'],
-          DateTime.parse(i['documentoPaciente']['fechaDeNacimiento']),
-          i['documentoPaciente']['direccion'],
-          i['documentoPaciente']['telefono'],
-          i['documentoPaciente']['correoElectronico'],
-          i['documentoPaciente']['estado'],
-        );
-        print(paciente);
-        Cita cita = Cita(
-            DateTime.parse(i['fechaCita']),
-            DateTime.parse(i['horaCita']),
-            i['estado'],
-            medico,
-            paciente,
-            i['numeroCita'],
-            i['observaciones']);
-        print(cita);
-        citasList.add(cita);
-        print(citasList);
-      }
-    }
+    citasList = await citaServiceImpl().getCitas();
     return citasList;
   }
 

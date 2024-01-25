@@ -30,7 +30,7 @@ class pacienteServiceImpl extends PacienteService {
   @override
   Future<List<Paciente>> getPacientes() async {
     List<Paciente> pacientesList = [];
-    final response = await http.get(Uri.parse("$uriBase/medico"));
+    final response = await http.get(Uri.parse("$uriBase/paciente"));
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body.toString());
       //print(data);

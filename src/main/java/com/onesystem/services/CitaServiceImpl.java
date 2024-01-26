@@ -14,32 +14,32 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CitaServiceImpl implements CitaService {
-    
+
     @Autowired
     private CitaRepositorio citaRepo;
-    
+
     @Override
     public List<Cita> findAll() {
         return citaRepo.findAll();
     }
-    
+
     @Override
     public Optional<Cita> findAllById(Integer numero_cita) {
         return citaRepo.findById(numero_cita.toString());
     }
-    
+
     @Override
     public Cita add(Cita m) {
-        return citaRepo.save(m);
+            return citaRepo.save(m);
     }
-    
+
     @Override
     public Cita update(Cita m) {
         Cita cita = citaRepo.getById(m.getNumeroCita().toString());
         BeanUtils.copyProperties(m, cita);
         return citaRepo.save(cita);
     }
-    
+
     @Override
     public Cita delet(Cita m) {
         Cita cita = citaRepo.getById(m.getNumeroCita().toString());
@@ -52,5 +52,5 @@ public class CitaServiceImpl implements CitaService {
     public List<Cita> findActivas() {
         return citaRepo.findActiveCitas();
     }
-    
+
 }

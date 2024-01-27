@@ -32,18 +32,44 @@ public class CitaRestController {
     private CitaService citasvs;
 
     @GetMapping("/all")
-    public List<Cita> findAll() {
-        return citasvs.findAll();
+    public ResponseEntity<?> findAll() {
+        try {
+            List<Cita> response = citasvs.findAll();
+            if (response != null) {
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/activas")
-    public List<Cita> findActivas() {
-        return citasvs.findActivas();
+    public ResponseEntity<?> findActivas() {
+        try {
+            List<Cita> response = citasvs.findActivas();
+            if (response != null) {
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+
     }
 
     @GetMapping("/{num_cita}")
-    public Optional<Cita> findAllById(@PathVariable Integer num_cita) {
-        return citasvs.findAllById(num_cita);
+    public ResponseEntity<?> findAllById(@PathVariable Integer num_cita) {
+        try {
+            Optional<Cita> response = citasvs.findAllById(num_cita);
+            if (response != null) {
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+
     }
 
     @GetMapping("/create")
@@ -74,7 +100,15 @@ public class CitaRestController {
     }
 
     @PutMapping("/update")
-    public Cita update(@RequestBody Cita m) {
-        return citasvs.update(m);
+    public ResponseEntity<?> update(@RequestBody Cita m) {
+        try {
+            Cita response = citasvs.update(m);
+            if (response != null) {
+                return new ResponseEntity<>("Actualizado correctamente", HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
     }
 }

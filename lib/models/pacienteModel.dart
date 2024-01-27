@@ -4,7 +4,7 @@ class Paciente {
   String apellidos;
   DateTime fechaDeNacimento;
   String direccion;
-  int telefono;
+  String telefono;
   String correoElectronico;
   String estado;
 

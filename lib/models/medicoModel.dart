@@ -2,7 +2,7 @@ class Medico {
   String documento;
   String nombre;
   String apellidos;
-  int telefono;
+  String telefono;
   String correoElectronico;
   String estado;
 

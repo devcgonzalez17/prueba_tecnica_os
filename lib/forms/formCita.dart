@@ -25,20 +25,28 @@ class CrearCitaState extends State<CrearCita> {
   List<Medico> medicosList = [];
   Future<List<Medico>> getMedicos() async {
     medicosList = await medicoServiceImpl().getMedicos();
+    print(dropdownMedicoValue);
+    if (dropdownMedicoValue == null) {
+      dropdownMedicoValue = medicosList.first;
+    }
+
     return medicosList;
   }
 
   List<Paciente> pacientesList = [];
   Future<List<Paciente>> getPacientes() async {
     pacientesList = await pacienteServiceImpl().getPacientes();
+    if (dropdownPacienteValue == null) {
+      dropdownPacienteValue = pacientesList.first;
+    }
     return pacientesList;
   }
 
   List<DateTime> horas = [DateTime.now()];
   List<String> estados = ["Ocupado", "Disponible", "Rechazada", "Cancelada"];
 
-  late Medico dropdownMedicoValue;
-  late Paciente dropdownPacienteValue;
+  Medico? dropdownMedicoValue;
+  Paciente? dropdownPacienteValue;
   late DateTime dropdownHoraValue;
   late String dropdownEstadoValue;
 
@@ -68,7 +76,7 @@ class CrearCitaState extends State<CrearCita> {
                           child: DropdownMenu<Medico>(
                             label: Text("Medico"),
                             width: 370.0,
-                            initialSelection: medicosList.first,
+                            initialSelection: dropdownMedicoValue,
                             onSelected: (Medico? value) {
                               // This is called when the user selects an item.
                               setState(() {
@@ -98,7 +106,7 @@ class CrearCitaState extends State<CrearCita> {
                           child: DropdownMenu<Paciente>(
                             label: Text("Paciente"),
                             width: 370.0,
-                            initialSelection: pacientesList.first,
+                            initialSelection: dropdownPacienteValue,
                             onSelected: (Paciente? value) {
                               // This is called when the user selects an item.
                               setState(() {
@@ -265,8 +273,8 @@ class CrearCitaState extends State<CrearCita> {
       DateTime.parse(dateInput.text),
       dropdownHoraValue,
       dropdownEstadoValue,
-      dropdownMedicoValue,
-      dropdownPacienteValue,
+      dropdownMedicoValue!,
+      dropdownPacienteValue!,
       0,
       observaciones.text,
     );

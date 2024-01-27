@@ -27,7 +27,7 @@ public class Medico implements Serializable {
     @Column(name = "apellidos")
     private String apellidos;
     @Column(name = "telefono")
-    private int telefono;
+    private String telefono;
     @Column(name = "correoElectronico")
     private String correoElectronico;
     @Column(name = "estado")

@@ -9,6 +9,8 @@ import com.onesystem.services.MedicoService;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,13 +31,30 @@ public class MedicoRestController {
     private MedicoService medsvs;
 
     @GetMapping
-    public List<Medico> findAll() {
-        return medsvs.findAll();
+    public ResponseEntity<?> findAll() {
+        try {
+            List<Medico> response = medsvs.findAll();
+            if (response != null) {
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/{doc}")
-    public Optional<Medico> findAllById(@PathVariable String doc) {
-        return medsvs.findAllById(doc);
+    public ResponseEntity<?> findAllById(@PathVariable String doc) {
+        try {
+            Optional<Medico> response = medsvs.findAllById(doc);
+            if (response != null) {
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+
     }
 
     @GetMapping("/create")
@@ -51,12 +70,29 @@ public class MedicoRestController {
     }
 
     @PostMapping("/create")
-    public Medico create(@RequestBody Medico m) {
-        return medsvs.add(m);
+    public ResponseEntity<?> create(@RequestBody Medico m) {
+        try {
+            Medico response = medsvs.add(m);
+            if (response != null) {
+                return new ResponseEntity<>("Agregado correctamente", HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping("/update")
-    public Medico update(@RequestBody Medico m) {
-        return medsvs.update(m);
+    public ResponseEntity<?> update(@RequestBody Medico m) {
+        try {
+            Medico response = medsvs.update(m);
+            if (response != null) {
+                return new ResponseEntity<>("Agregado correctamente", HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+
     }
 }

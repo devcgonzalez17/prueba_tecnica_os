@@ -4,12 +4,13 @@
  */
 package com.onesystem.controllers;
 
-import com.onesystem.entidades.Medico;
 import com.onesystem.entidades.Paciente;
 import com.onesystem.services.PacienteService;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,13 +27,31 @@ public class PacienteRestController {
     private PacienteService pacientesvs;
 
     @GetMapping
-    public List<Paciente> findAll() {
-        return pacientesvs.findAll();
+    public ResponseEntity<?> findAll() {
+        try {
+            List<Paciente> response = pacientesvs.findAll();
+            if (response != null) {
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+
     }
 
     @GetMapping("/{doc}")
-    public Optional<Paciente> findAllById(@PathVariable String doc) {
-        return pacientesvs.findAllById(doc);
+    public ResponseEntity<?> findAllById(@PathVariable String doc) {
+        try {
+            Optional<Paciente> response = pacientesvs.findAllById(doc);
+            if (response != null) {
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+
     }
 
     @GetMapping("/create")
@@ -50,12 +69,29 @@ public class PacienteRestController {
     }
 
     @PostMapping("/create")
-    public Paciente create(@RequestBody Paciente m) {
-        return pacientesvs.add(m);
+    public ResponseEntity<?> create(@RequestBody Paciente m) {
+        try {
+            Paciente response = pacientesvs.add(m);
+            if (response != null) {
+                return new ResponseEntity<>("Agregado correctamente", HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping("/update")
-    public Paciente update(@RequestBody Paciente m) {
-        return pacientesvs.update(m);
+    public ResponseEntity<?> update(@RequestBody Paciente m) {
+        try {
+            Paciente response = pacientesvs.update(m);
+            if (response != null) {
+                return new ResponseEntity<>("Agregado correctamente", HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+
     }
 }

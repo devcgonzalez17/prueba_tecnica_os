@@ -5,7 +5,6 @@
 package com.onesystem.controllers;
 
 import com.onesystem.entidades.Cita;
-import com.onesystem.entidades.Paciente;
 import com.onesystem.services.CitaService;
 import java.util.List;
 import java.util.Optional;

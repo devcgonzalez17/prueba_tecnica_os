@@ -170,11 +170,21 @@ class CrearCitaState extends State<CrearCita> {
                             readOnly: true,
                             onTap: () async {
                               DateTime? pickedDate = await showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime(1950),
-                                  //DateTime.now() - not to allow to choose before today.
-                                  lastDate: DateTime(2100));
+                                context: context,
+                                initialDate: DateTime(
+                                    DateTime.now().year,
+                                    DateTime.now().month,
+                                    DateTime.now().day + 1),
+                                firstDate: DateTime(
+                                    DateTime.now().year,
+                                    DateTime.now().month,
+                                    DateTime.now().day + 1),
+                                //DateTime.now() - not to allow to choose before today.
+                                lastDate: DateTime(
+                                    DateTime.now().year,
+                                    DateTime.now().month + 1,
+                                    DateTime.now().day + 1),
+                              );
 
                               if (pickedDate != null) {
                                 String formattedDate =

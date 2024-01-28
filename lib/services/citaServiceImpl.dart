@@ -5,6 +5,7 @@ import 'package:app_prueba_tecnica/models/medicoModel.dart';
 import 'package:app_prueba_tecnica/models/pacienteModel.dart';
 import 'package:app_prueba_tecnica/services/citaService.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 class citaServiceImpl extends CitaService {
   final uriBase = "http://192.168.56.1:8095/osapi";
@@ -94,7 +95,7 @@ class citaServiceImpl extends CitaService {
   }
 
   @override
-  Future<int> newCita(Cita c) async {
+  Future<Response> newCita(Cita c) async {
     late Cita cita;
     Map<String, dynamic> citaJson = c.toJson();
     print(jsonEncode(citaJson));
@@ -111,6 +112,6 @@ class citaServiceImpl extends CitaService {
     } else {
       print(response.body);
     }
-    return response.statusCode;
+    return response;
   }
 }

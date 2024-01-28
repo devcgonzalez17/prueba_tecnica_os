@@ -6,7 +6,14 @@ import 'package:app_prueba_tecnica/services/citaServiceImpl.dart';
 import 'package:app_prueba_tecnica/services/medicoServiceImpl.dart';
 import 'package:app_prueba_tecnica/services/pacienteServiceImpl.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:intl/intl.dart';
+
+class formCitaArguments {
+  final Cita? cita;
+
+  formCitaArguments([this.cita]);
+}
 
 class CrearCita extends StatefulWidget {
   const CrearCita({super.key});
@@ -25,7 +32,6 @@ class CrearCitaState extends State<CrearCita> {
   List<Medico> medicosList = [];
   Future<List<Medico>> getMedicos() async {
     medicosList = await medicoServiceImpl().getMedicos();
-    print(dropdownMedicoValue);
     if (dropdownMedicoValue == null) {
       dropdownMedicoValue = medicosList.first;
     }
@@ -47,14 +53,26 @@ class CrearCitaState extends State<CrearCita> {
 
   Medico? dropdownMedicoValue;
   Paciente? dropdownPacienteValue;
-  late DateTime dropdownHoraValue;
-  late String dropdownEstadoValue;
+  late DateTime? dropdownHoraValue;
+  late String? dropdownEstadoValue;
 
   TextEditingController dateInput = TextEditingController();
   TextEditingController observaciones = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)!.settings.arguments as formCitaArguments?;
+    print(args);
+
+    if (args != null && args.cita != null) {
+      dropdownMedicoValue = args.cita?.documentoMedico;
+      dropdownPacienteValue = args.cita?.documentoPaciente;
+      dropdownHoraValue = args.cita?.horaCita;
+      dropdownEstadoValue = args.cita?.estado;
+      dateInput.text = args.cita!.fechaCita.toString();
+      observaciones.text = args.cita!.observaciones.toString();
+    }
     return Scaffold(
         appBar: AppBar(
           title: Text("Nueva Cita"),
@@ -235,14 +253,22 @@ class CrearCitaState extends State<CrearCita> {
                               content: Text('Guardando Información')),
                         );
                         Cita cita = buildCita();
-                        int response = await citaServiceImpl().newCita(cita);
-                        if (response == 200) {
+                        Response response =
+                            await citaServiceImpl().newCita(cita);
+
+                        if (response.statusCode == 200) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                                 content: Text('Guardado correctamente')),
                           );
                           Navigator.of(context).push(
                               MaterialPageRoute(builder: (context) => Home()));
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text(
+                                    "Ha ocurrido un error: ${response.body.split("Where")[0]}")),
+                          );
                         }
                       }
                     },
@@ -271,8 +297,8 @@ class CrearCitaState extends State<CrearCita> {
   Cita buildCita() {
     Cita cita = Cita(
       DateTime.parse(dateInput.text),
-      dropdownHoraValue,
-      dropdownEstadoValue,
+      dropdownHoraValue!,
+      dropdownEstadoValue!,
       dropdownMedicoValue!,
       dropdownPacienteValue!,
       0,

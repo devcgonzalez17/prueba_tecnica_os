@@ -1,3 +1,4 @@
+import 'package:app_prueba_tecnica/forms/formCita.dart';
 import 'package:app_prueba_tecnica/models/citaModel.dart';
 import 'package:app_prueba_tecnica/models/medicoModel.dart';
 import 'package:app_prueba_tecnica/models/pacienteModel.dart';
@@ -150,11 +151,12 @@ class Detalles extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Processing Data')),
-                    );
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => CrearCita(),
+                        settings: RouteSettings(
+                            arguments: formCitaArguments(args.cita))));
                   },
-                  child: const Text('Submit'),
+                  child: const Text('Editar'),
                 ),
               ],
             ),

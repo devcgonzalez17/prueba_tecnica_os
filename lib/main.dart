@@ -1,10 +1,8 @@
-import 'package:app_prueba_tecnica/citas.dart';
-import 'package:app_prueba_tecnica/detalles.dart';
-import 'package:app_prueba_tecnica/medicos.dart';
-import 'package:app_prueba_tecnica/pacientes.dart';
-import 'package:flutter/material.dart';
+import 'package:app_prueba_tecnica/views/citas.dart';
+import 'package:app_prueba_tecnica/views/medicos.dart';
+import 'package:app_prueba_tecnica/views/pacientes.dart';
 
-import 'forms/formCita.dart';
+import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MainApp());

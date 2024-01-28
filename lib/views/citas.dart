@@ -1,14 +1,10 @@
-import 'dart:convert';
 import 'dart:core';
 
-import 'package:app_prueba_tecnica/detalles.dart';
 import 'package:app_prueba_tecnica/forms/formCita.dart';
 import 'package:app_prueba_tecnica/models/citaModel.dart';
-import 'package:app_prueba_tecnica/models/medicoModel.dart';
-import 'package:app_prueba_tecnica/models/pacienteModel.dart';
 import 'package:app_prueba_tecnica/services/citaServiceImpl.dart';
+import 'package:app_prueba_tecnica/views/detalles.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 class Citas extends StatefulWidget {

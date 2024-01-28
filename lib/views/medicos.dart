@@ -1,11 +1,9 @@
-import 'dart:convert';
 import 'dart:core';
 
-import 'package:app_prueba_tecnica/detalles.dart';
+import 'package:app_prueba_tecnica/views/detalles.dart';
 import 'package:app_prueba_tecnica/models/medicoModel.dart';
 import 'package:app_prueba_tecnica/services/medicoServiceImpl.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class Medicos extends StatefulWidget {
   const Medicos({super.key});

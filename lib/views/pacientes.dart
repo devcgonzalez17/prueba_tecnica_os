@@ -1,11 +1,9 @@
-import 'dart:convert';
 import 'dart:core';
 
-import 'package:app_prueba_tecnica/detalles.dart';
 import 'package:app_prueba_tecnica/models/pacienteModel.dart';
 import 'package:app_prueba_tecnica/services/pacienteServiceImpl.dart';
+import 'package:app_prueba_tecnica/views/detalles.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class Pacientes extends StatefulWidget {
   const Pacientes({super.key});

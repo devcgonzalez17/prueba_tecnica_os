@@ -54,7 +54,7 @@ class CitasState extends State<Citas> {
                             "#" +
                                 snapshot.data![index].numeroCita.toString() +
                                 " " +
-                                DateFormat('yyyy-MM-dd H:m')
+                                DateFormat('yyyy-MM-dd H:mm')
                                     .format(snapshot.data![index].horaCita),
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),

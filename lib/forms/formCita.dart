@@ -5,6 +5,7 @@ import 'package:app_prueba_tecnica/models/pacienteModel.dart';
 import 'package:app_prueba_tecnica/services/citaServiceImpl.dart';
 import 'package:app_prueba_tecnica/services/medicoServiceImpl.dart';
 import 'package:app_prueba_tecnica/services/pacienteServiceImpl.dart';
+import 'package:app_prueba_tecnica/services/sqliteService.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
@@ -271,6 +272,8 @@ class CrearCitaState extends State<CrearCita> {
                             const SnackBar(
                                 content: Text('Guardado correctamente')),
                           );
+
+                          SqliteService().createCita(cita);
                           Navigator.of(context).push(
                               MaterialPageRoute(builder: (context) => Home()));
                         } else {
@@ -308,9 +311,9 @@ class CrearCitaState extends State<CrearCita> {
     Cita cita = Cita(
       DateTime.parse(dateInput.text),
       dropdownHoraValue!,
-      dropdownEstadoValue!,
       dropdownMedicoValue!,
       dropdownPacienteValue!,
+      dropdownEstadoValue!,
       0,
       observaciones.text,
     );

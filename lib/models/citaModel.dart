@@ -6,7 +6,7 @@ class Cita {
   DateTime fechaCita;
   DateTime horaCita;
   String? observaciones;
-  String estado;
+  String? estado;
   Medico documentoMedico;
   Paciente documentoPaciente;
 /*
@@ -30,9 +30,9 @@ class Cita {
   String get documentoPaciente => _documentoPaciente;
   set documentoPaciente(String value) => _documentoPaciente = value;
 */
-  Cita(this.fechaCita, this.horaCita, this.estado, this.documentoMedico,
+  Cita(this.fechaCita, this.horaCita, this.documentoMedico,
       this.documentoPaciente,
-      [this.numeroCita, this.observaciones]);
+      [this.estado, this.numeroCita, this.observaciones]);
 
   Cita.fromMap(Map<String, dynamic> item)
       : fechaCita = DateTime.parse(item['fechaCita']),

@@ -6,10 +6,10 @@ class Paciente {
   String direccion;
   String telefono;
   String correoElectronico;
-  String estado;
+  String? estado;
 
   Paciente(this.documento, this.nombre, this.apellidos, this.fechaDeNacimento,
-      this.direccion, this.telefono, this.correoElectronico, this.estado);
+      this.direccion, this.telefono, this.correoElectronico, [this.estado]);
 
   Map<String, dynamic> toJson() => {
         'documento': documento,

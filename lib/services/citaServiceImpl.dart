@@ -39,9 +39,9 @@ class citaServiceImpl extends CitaService {
       cita = Cita(
         DateTime.parse(i['fechaCita']),
         DateTime.parse(i['horaCita']),
-        i['estado'],
         medico,
         paciente,
+        i['estado'],
         i['numeroCita'],
         i['observaciones'],
       );
@@ -63,7 +63,7 @@ class citaServiceImpl extends CitaService {
           i['documentoMedico']['apellidos'],
           i['documentoMedico']['telefono'],
           i['documentoMedico']['correoElectronico'],
-          i['documentoMedico']['estado'],
+          i['documentoMedico']['estado']!,
         );
         print(medico);
 
@@ -76,15 +76,15 @@ class citaServiceImpl extends CitaService {
           i['documentoPaciente']['direccion'],
           i['documentoPaciente']['telefono'],
           i['documentoPaciente']['correoElectronico'],
-          i['documentoPaciente']['estado'],
+          i['documentoPaciente']['estado']!,
         );
         print(paciente);
         Cita cita = Cita(
             DateTime.parse(i['fechaCita']),
             DateTime.parse(i['horaCita']),
-            i['estado'],
             medico,
             paciente,
+            i['estado'],
             i['numeroCita'],
             i['observaciones']);
         print(cita);

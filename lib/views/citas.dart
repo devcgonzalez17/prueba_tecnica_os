@@ -32,7 +32,7 @@ class CitasState extends State<Citas> {
 
   @override
   Widget build(BuildContext context) {
-    var citasSqlite = getLocalCitas();
+    Future<List<Cita>> citasSqlite = getLocalCitas();
     print("citas sqllite");
     print(citasSqlite);
     return Scaffold(

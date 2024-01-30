@@ -13,7 +13,8 @@ class SqliteService {
 
   Future<List<Cita>> getCitas() async {
     final db = await initializeDB();
-    final List<Map<String, Object?>> queryResult = await db.query('cita');
+    final List<Map<String, dynamic>> queryResult = await db.query("cita");
+    print(queryResult);
     return queryResult.map((e) => Cita.fromMap(e)).toList();
   }
 
@@ -31,7 +32,7 @@ CREATE TABLE IF NOT EXISTS medico(
     nombre VARCHAR(60) NOT NULL,
     apellidos VARCHAR(60) NOT NULL,
     telefono VARCHAR(10) NOT NULL, 
-    correo_electronico VARCHAR(60) NOT NULL CHECK(correo_electronico ~ '^[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}') UNIQUE,
+    correo_electronico VARCHAR(60) NOT NULL UNIQUE,
     estado VARCHAR(12) NULL,
     PRIMARY KEY(documento),
     UNIQUE(documento, correo_electronico)
@@ -44,7 +45,7 @@ CREATE TABLE IF NOT EXISTS paciente(
     fecha_de_nacimiento DATE NOT NULL,
     direccion VARCHAR(60) NULL,
     telefono VARCHAR(10) NOT NULL,
-    correo_electronico VARCHAR(60) NOT NULL CHECK(correo_electronico ~ '^[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}') UNIQUE,
+    correo_electronico VARCHAR(60) NOT NULL UNIQUE,
     estado VARCHAR(12) NULL,
     PRIMARY KEY(documento),
     UNIQUE(documento, correo_electronico)

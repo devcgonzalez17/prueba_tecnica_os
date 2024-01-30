@@ -3,6 +3,7 @@ import 'dart:core';
 import 'package:app_prueba_tecnica/forms/formCita.dart';
 import 'package:app_prueba_tecnica/models/citaModel.dart';
 import 'package:app_prueba_tecnica/services/citaServiceImpl.dart';
+import 'package:app_prueba_tecnica/services/sqliteService.dart';
 import 'package:app_prueba_tecnica/views/detalles.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -24,8 +25,16 @@ class CitasState extends State<Citas> {
     return citasList;
   }
 
+  Future<List<Cita>> getLocalCitas() async {
+    citasList = await SqliteService().getCitas();
+    return citasList;
+  }
+
   @override
   Widget build(BuildContext context) {
+    var citasSqlite = getLocalCitas();
+    print("citas sqllite");
+    print(citasSqlite);
     return Scaffold(
       appBar: AppBar(
         title: Text("Citas"),

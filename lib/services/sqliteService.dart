@@ -11,10 +11,9 @@ class SqliteService {
     return result;
   }
 
-    Future<List<Cita>> getCitas() async {
+  Future<List<Cita>> getCitas() async {
     final db = await initializeDB();
-    final List<Map<String, Object?>> queryResult = 
-      await db.query('cita');
+    final List<Map<String, Object?>> queryResult = await db.query('cita');
     return queryResult.map((e) => Cita.fromMap(e)).toList();
   }
 
@@ -31,8 +30,8 @@ CREATE TABLE IF NOT EXISTS medico(
     documento VARCHAR(16) NOT NULL,
     nombre VARCHAR(60) NOT NULL,
     apellidos VARCHAR(60) NOT NULL,
-    telefono INTEGER NOT NULL, 
-    correo_electronico citext NOT NULL CHECK(correo_electronico ~ '^[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}') UNIQUE,
+    telefono VARCHAR(10) NOT NULL, 
+    correo_electronico VARCHAR(60) NOT NULL CHECK(correo_electronico ~ '^[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}') UNIQUE,
     estado VARCHAR(12) NULL,
     PRIMARY KEY(documento),
     UNIQUE(documento, correo_electronico)
@@ -44,8 +43,8 @@ CREATE TABLE IF NOT EXISTS paciente(
     apellidos VARCHAR(60) NOT NULL,
     fecha_de_nacimiento DATE NOT NULL,
     direccion VARCHAR(60) NULL,
-    telefono INTEGER NOT NULL,
-    correo_electronico citext NOT NULL CHECK(correo_electronico ~ '^[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}') UNIQUE,
+    telefono VARCHAR(10) NOT NULL,
+    correo_electronico VARCHAR(60) NOT NULL CHECK(correo_electronico ~ '^[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}') UNIQUE,
     estado VARCHAR(12) NULL,
     PRIMARY KEY(documento),
     UNIQUE(documento, correo_electronico)

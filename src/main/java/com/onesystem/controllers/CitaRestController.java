@@ -8,9 +8,13 @@ import com.onesystem.entidades.Cita;
 import com.onesystem.services.CitaService;
 import java.util.List;
 import java.util.Optional;
+import org.hibernate.JDBCException;
+import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -64,6 +68,8 @@ public class CitaRestController {
             if (response != null) {
                 return new ResponseEntity<>(response, HttpStatus.OK);
             }
+        } catch (JDBCException e) {
+            return new ResponseEntity<>(e.getErrorMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -92,7 +98,15 @@ public class CitaRestController {
             if (response != null) {
                 return new ResponseEntity<>("Agregado correctamente", HttpStatus.OK);
             }
+        } catch (JpaSystemException e) {
+            return new ResponseEntity<>("El Medico o Paciente no se encuentra activo", HttpStatus.BAD_REQUEST);
+        } catch (DataIntegrityViolationException e) {
+            return new ResponseEntity<>("Este horario ya se encuentra agendado", HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
+            System.out.println(e);
+            System.out.println(e.getCause());
+            System.out.println(e.getClass());
+            System.out.println(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
@@ -105,9 +119,12 @@ public class CitaRestController {
             if (response != null) {
                 return new ResponseEntity<>("Actualizado correctamente", HttpStatus.OK);
             }
+        } catch (JDBCException e) {
+            return new ResponseEntity<>(e.getErrorMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
     }
+
 }

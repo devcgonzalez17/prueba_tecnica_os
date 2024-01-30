@@ -8,6 +8,7 @@ import com.onesystem.entidades.Medico;
 import com.onesystem.services.MedicoService;
 import java.util.List;
 import java.util.Optional;
+import org.hibernate.JDBCException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -76,6 +77,8 @@ public class MedicoRestController {
             if (response != null) {
                 return new ResponseEntity<>("Agregado correctamente", HttpStatus.OK);
             }
+        } catch (JDBCException e) {
+            return new ResponseEntity<>(e.getErrorMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -89,6 +92,8 @@ public class MedicoRestController {
             if (response != null) {
                 return new ResponseEntity<>("Agregado correctamente", HttpStatus.OK);
             }
+        } catch (JDBCException e) {
+            return new ResponseEntity<>(e.getErrorMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

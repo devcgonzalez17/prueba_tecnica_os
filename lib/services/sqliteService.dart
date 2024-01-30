@@ -6,14 +6,14 @@ class SqliteService {
   Future<int> createCita(Cita cita) async {
     int result = 0;
     final Database db = await initializeDB();
-    final numeroCita = await db.insert('cita', cita.toJson(),
+    final numeroCita = await db.insert('Cita', cita.toJson(),
         conflictAlgorithm: ConflictAlgorithm.replace);
     return result;
   }
 
   Future<List<Cita>> getCitas() async {
     final db = await initializeDB();
-    final List<Map<String, dynamic>> queryResult = await db.query("cita");
+    final List<Map<String, dynamic>> queryResult = await db.query("Cita");
     print(queryResult);
     return queryResult.map((e) => Cita.fromMap(e)).toList();
   }
@@ -27,7 +27,7 @@ class SqliteService {
         await database.execute(
           """   
           
-CREATE TABLE IF NOT EXISTS medico(
+CREATE TABLE IF NOT EXISTS Medico(
     documento VARCHAR(16) NOT NULL,
     nombre VARCHAR(60) NOT NULL,
     apellidos VARCHAR(60) NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS medico(
     UNIQUE(documento, correo_electronico)
 );
 
-CREATE TABLE IF NOT EXISTS paciente(
+CREATE TABLE IF NOT EXISTS Paciente(
     documento VARCHAR(16) NOT NULL,
     nombre VARCHAR(60) NOT NULL,
     apellidos VARCHAR(60) NOT NULL,
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS paciente(
     UNIQUE(documento, correo_electronico)
 );
 
-CREATE TABLE IF NOT EXISTS cita (
+CREATE TABLE IF NOT EXISTS Cita(
     numero_cita SERIAL PRIMARY KEY,
     documento_medico VARCHAR(60) NOT NULL,
     documento_paciente VARCHAR(60) NOT NULL,

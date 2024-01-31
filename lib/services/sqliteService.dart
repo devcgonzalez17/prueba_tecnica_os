@@ -17,7 +17,9 @@ class SqliteService {
     try {
       Database? db = await getDB;
       Batch batch = db!.batch();
-      batch.insert('Cita', cita.toJson(),
+      print("json");
+      print(cita.toLocalJson());
+      batch.insert('Cita', cita.toLocalJson(),
           conflictAlgorithm: ConflictAlgorithm.replace);
       await batch.commit(noResult: true);
       result = 200;
@@ -61,7 +63,11 @@ class SqliteService {
     Database? db = await getDB;
     final List<Map<String, dynamic>> queryResult = await db!.query("Cita");
     print(queryResult);
-    return queryResult.map((e) => Cita.fromMap(e)).toList();
+    List<Paciente> pacientes = await getPacientes();
+    List<Medico> medicos = await getMedicos();
+    return queryResult
+        .map((e) => Cita.fromLocalMap(e, pacientes, medicos))
+        .toList();
   }
 
   Future<List<Medico>> getMedicos() async {
@@ -93,7 +99,7 @@ class SqliteService {
     return await openDatabase(
       join(path, 'pruebaTecnica.db'),
       onCreate: createDB,
-      version: 2,
+      version: 3,
     );
   }
 
@@ -124,7 +130,7 @@ CREATE TABLE IF NOT EXISTS 'Paciente'(
     await database.execute(
       """
 CREATE TABLE IF NOT EXISTS 'Cita'(
-    'numero_cita' INTEGER PRIMARY KEY,
+    'numero_cita' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     'documento_medico' VARCHAR(60) NOT NULL,
     'documento_paciente' VARCHAR(60) NOT NULL,
     'fechaCita' DATE NOT NULL,

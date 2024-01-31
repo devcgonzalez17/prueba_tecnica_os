@@ -32,14 +32,8 @@ class CrearCitaState extends State<CrearCita> {
 
   List<Medico> medicosList = [];
   Future<List<Medico>> getMedicos() async {
-    medicosList = await medicoServiceImpl().getMedicos().timeout(
-      const Duration(seconds: 10),
-      onTimeout: () {
-        // Time has run out, do what you wanted to do.
-        return SqliteService()
-            .getMedicos(); // Request Timeout response status code
-      },
-    );
+    await medicoServiceImpl().getMedicos();
+    medicosList = await SqliteService().getMedicos();
     if (dropdownMedicoValue == null) {
       dropdownMedicoValue = medicosList.first;
     }
@@ -49,14 +43,8 @@ class CrearCitaState extends State<CrearCita> {
 
   List<Paciente> pacientesList = [];
   Future<List<Paciente>> getPacientes() async {
-    pacientesList = await pacienteServiceImpl().getPacientes().timeout(
-      const Duration(seconds: 10),
-      onTimeout: () {
-        // Time has run out, do what you wanted to do.
-        return SqliteService()
-            .getPacientes(); // Request Timeout response status code
-      },
-    );
+    await pacienteServiceImpl().getPacientes();
+    pacientesList = await SqliteService().getPacientes();
     if (dropdownPacienteValue == null) {
       dropdownPacienteValue = pacientesList.first;
     }
@@ -68,8 +56,8 @@ class CrearCitaState extends State<CrearCita> {
 
   Medico? dropdownMedicoValue;
   Paciente? dropdownPacienteValue;
-  late DateTime? dropdownHoraValue;
-  late String? dropdownEstadoValue;
+  DateTime? dropdownHoraValue = DateTime.now();
+  String? dropdownEstadoValue;
 
   TextEditingController dateInput = TextEditingController();
   TextEditingController observaciones = TextEditingController();
@@ -289,10 +277,23 @@ class CrearCitaState extends State<CrearCita> {
                           Navigator.of(context).push(
                               MaterialPageRoute(builder: (context) => Home()));
                         } else {
-                          if (response.statusCode == 404 ||
-                              response.statusCode == 500) {
+                          if (response.statusCode == 408) {
                             int response2 =
                                 await SqliteService().createCita(cita);
+                            if (response2 == 200) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Guardado correctamente')),
+                              );
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => Home()));
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text(
+                                        "Ha ocurrido un error, intenta mas tarde")),
+                              );
+                            }
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(

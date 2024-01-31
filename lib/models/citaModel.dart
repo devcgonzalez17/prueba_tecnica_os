@@ -42,6 +42,22 @@ class Cita {
         documentoPaciente = item['documentoPaciente'],
         numeroCita = item['numeroCita'],
         observaciones = item['observaciones'];
+
+  Cita.fromLocalMap(
+      Map<String, dynamic> item, List<Paciente> pacientes, List<Medico> medicos)
+      : fechaCita = DateTime.parse(item['fechaCita']),
+        horaCita = DateTime.parse(item['horaCita']),
+        estado = item['estado'],
+        documentoMedico = medicos
+            .where(
+                (medico) => medico.documento.contains(item['documento_medico']))
+            .toList()[0],
+        documentoPaciente = pacientes
+            .where((paciente) =>
+                paciente.documento.contains(item['documento_paciente']))
+            .toList()[0],
+        numeroCita = item['numero_cita'],
+        observaciones = item['observaciones'];
   Map<String, dynamic> toJson() => {
         'fechaCita': fechaCita.toIso8601String(),
         'horaCita': horaCita.toIso8601String(),
@@ -49,5 +65,13 @@ class Cita {
         'estado': estado,
         'documentoMedico': documentoMedico.toJson(),
         'documentoPaciente': documentoPaciente.toJson(),
+      };
+  Map<String, dynamic> toLocalJson() => {
+        'fechaCita': fechaCita.toIso8601String(),
+        'horaCita': horaCita.toIso8601String(),
+        'observaciones': observaciones,
+        'estado': estado,
+        'documento_medico': documentoMedico.documento,
+        'documento_paciente': documentoPaciente.documento,
       };
 }

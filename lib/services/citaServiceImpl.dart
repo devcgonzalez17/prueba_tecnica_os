@@ -13,7 +13,8 @@ class citaServiceImpl extends CitaService {
   @override
   Future<Cita> getCita(int numeroCita) async {
     late Cita cita;
-    final response = await http.get(Uri.parse("$uriBase/citas/$numeroCita")).timeout(
+    final response =
+        await http.get(Uri.parse("$uriBase/citas/$numeroCita")).timeout(
       const Duration(seconds: 10),
       onTimeout: () {
         // Time has run out, do what you wanted to do.
@@ -114,12 +115,21 @@ class citaServiceImpl extends CitaService {
     Map<String, dynamic> citaJson = c.toJson();
     print(jsonEncode(citaJson));
 
-    final response = await http.post(
+    final response = await http
+        .post(
       Uri.parse("$uriBase/citas/create"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(citaJson),
+    )
+        .timeout(
+      const Duration(seconds: 10),
+      onTimeout: () {
+        // Time has run out, do what you wanted to do.
+        return http.Response(
+            'Error', 408); // Request Timeout response status code
+      },
     );
     if (response.statusCode != 200) {
       print(response.body);

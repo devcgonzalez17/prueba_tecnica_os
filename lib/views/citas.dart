@@ -23,11 +23,11 @@ class CitasState extends State<Citas> {
 
   Future<List<Cita>> getCitas() async {
     citasList = await citaServiceImpl().getCitas();
-    print("get citas");
-    print(citasList);
+    //print("get citas");
+    //print(citasList);
     List<Cita> localCitasList = await getLocalCitas();
     citasList.addAll(localCitasList);
-    print(citasList);
+    //print(citasList);
     return citasList;
   }
 

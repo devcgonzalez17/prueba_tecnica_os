@@ -2,6 +2,7 @@ import 'dart:core';
 
 import 'package:app_prueba_tecnica/models/pacienteModel.dart';
 import 'package:app_prueba_tecnica/services/pacienteServiceImpl.dart';
+import 'package:app_prueba_tecnica/services/sqliteService.dart';
 import 'package:app_prueba_tecnica/views/detalles.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +20,13 @@ class PacientesState extends State<Pacientes> {
 
   Future<List<Paciente>> getPacientes() async {
     pacientesList = await pacienteServiceImpl().getPacientes();
+    pacientesList = await getLocalPacientes();
     return pacientesList;
+  }
+
+  Future<List<Paciente>> getLocalPacientes() async {
+    List<Paciente> LocalPacientesList = await SqliteService().getPacientes();
+    return LocalPacientesList;
   }
 
   @override

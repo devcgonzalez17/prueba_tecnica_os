@@ -1,9 +1,12 @@
 import 'dart:core';
 
+import 'package:app_prueba_tecnica/services/citaServiceImpl.dart';
+import 'package:app_prueba_tecnica/services/sqliteService.dart';
 import 'package:app_prueba_tecnica/views/detalles.dart';
 import 'package:app_prueba_tecnica/models/medicoModel.dart';
 import 'package:app_prueba_tecnica/services/medicoServiceImpl.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
 class Medicos extends StatefulWidget {
   const Medicos({super.key});
@@ -19,7 +22,14 @@ class MedicosState extends State<Medicos> {
 
   Future<List<Medico>> getMedicos() async {
     medicosList = await medicoServiceImpl().getMedicos();
+    medicosList = await getLocalMedicos();
     return medicosList;
+  }
+
+  
+  Future<List<Medico>> getLocalMedicos() async {
+    List<Medico> LocalMedicosList = await SqliteService().getMedicos();
+    return LocalMedicosList;
   }
 
   @override

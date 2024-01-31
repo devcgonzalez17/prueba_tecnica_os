@@ -13,7 +13,14 @@ class citaServiceImpl extends CitaService {
   @override
   Future<Cita> getCita(int numeroCita) async {
     late Cita cita;
-    final response = await http.get(Uri.parse("$uriBase/citas/$numeroCita"));
+    final response = await http.get(Uri.parse("$uriBase/citas/$numeroCita")).timeout(
+      const Duration(seconds: 10),
+      onTimeout: () {
+        // Time has run out, do what you wanted to do.
+        return http.Response(
+            'Error', 408); // Request Timeout response status code
+      },
+    );
     if (response.statusCode == 200) {
       var i = jsonDecode(response.body.toString());
       Medico medico = Medico(
@@ -52,7 +59,14 @@ class citaServiceImpl extends CitaService {
   @override
   Future<List<Cita>> getCitas() async {
     List<Cita> citasList = [];
-    final response = await http.get(Uri.parse("$uriBase/citas/all"));
+    final response = await http.get(Uri.parse("$uriBase/citas/all")).timeout(
+      const Duration(seconds: 10),
+      onTimeout: () {
+        // Time has run out, do what you wanted to do.
+        return http.Response(
+            'Error', 408); // Request Timeout response status code
+      },
+    );
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body.toString());
       //print(data);

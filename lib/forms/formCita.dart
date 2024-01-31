@@ -32,7 +32,14 @@ class CrearCitaState extends State<CrearCita> {
 
   List<Medico> medicosList = [];
   Future<List<Medico>> getMedicos() async {
-    medicosList = await medicoServiceImpl().getMedicos();
+    medicosList = await medicoServiceImpl().getMedicos().timeout(
+      const Duration(seconds: 10),
+      onTimeout: () {
+        // Time has run out, do what you wanted to do.
+        return SqliteService()
+            .getMedicos(); // Request Timeout response status code
+      },
+    );
     if (dropdownMedicoValue == null) {
       dropdownMedicoValue = medicosList.first;
     }
@@ -42,7 +49,14 @@ class CrearCitaState extends State<CrearCita> {
 
   List<Paciente> pacientesList = [];
   Future<List<Paciente>> getPacientes() async {
-    pacientesList = await pacienteServiceImpl().getPacientes();
+    pacientesList = await pacienteServiceImpl().getPacientes().timeout(
+      const Duration(seconds: 10),
+      onTimeout: () {
+        // Time has run out, do what you wanted to do.
+        return SqliteService()
+            .getPacientes(); // Request Timeout response status code
+      },
+    );
     if (dropdownPacienteValue == null) {
       dropdownPacienteValue = pacientesList.first;
     }
@@ -272,16 +286,20 @@ class CrearCitaState extends State<CrearCita> {
                             const SnackBar(
                                 content: Text('Guardado correctamente')),
                           );
-
-                          SqliteService().createCita(cita);
                           Navigator.of(context).push(
                               MaterialPageRoute(builder: (context) => Home()));
                         } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content: Text(
-                                    "Ha ocurrido un error: ${response.body.split("Where")[0]}")),
-                          );
+                          if (response.statusCode == 404 ||
+                              response.statusCode == 500) {
+                            int response2 =
+                                await SqliteService().createCita(cita);
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                  content: Text(
+                                      "Ha ocurrido un error: ${response.body.split("Where")[0]}")),
+                            );
+                          }
                         }
                       }
                     },

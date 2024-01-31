@@ -5,6 +5,7 @@ import 'package:app_prueba_tecnica/models/medicoModel.dart';
 import 'package:app_prueba_tecnica/models/pacienteModel.dart';
 import 'package:app_prueba_tecnica/services/citaService.dart';
 import 'package:app_prueba_tecnica/services/medicoService.dart';
+import 'package:app_prueba_tecnica/services/sqliteService.dart';
 import 'package:http/http.dart' as http;
 
 class medicoServiceImpl extends MedicoService {
@@ -13,7 +14,15 @@ class medicoServiceImpl extends MedicoService {
   @override
   Future<Medico> getMedico(String documento) async {
     late Medico medico;
-    final response = await http.get(Uri.parse("$uriBase/medico/$documento"));
+    final response =
+        await http.get(Uri.parse("$uriBase/medico/$documento")).timeout(
+      const Duration(seconds: 10),
+      onTimeout: () {
+        // Time has run out, do what you wanted to do.
+        return http.Response(
+            'Error', 408); // Request Timeout response status code
+      },
+    );
     if (response.statusCode == 200) {
       var i = jsonDecode(response.body.toString());
       medico = Medico(
@@ -31,7 +40,14 @@ class medicoServiceImpl extends MedicoService {
   @override
   Future<List<Medico>> getMedicos() async {
     List<Medico> medicosList = [];
-    final response = await http.get(Uri.parse("$uriBase/medico"));
+    final response = await http.get(Uri.parse("$uriBase/medico")).timeout(
+      const Duration(seconds: 10),
+      onTimeout: () {
+        // Time has run out, do what you wanted to do.
+        return http.Response(
+            'Error', 408); // Request Timeout response status code
+      },
+    );
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body.toString());
       //print(data);
@@ -45,6 +61,7 @@ class medicoServiceImpl extends MedicoService {
           i['estado'],
         );
         medicosList.add(medico);
+        SqliteService().createMedico(medico);
       }
     }
     return medicosList;

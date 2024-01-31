@@ -6,6 +6,7 @@ import 'package:app_prueba_tecnica/services/citaServiceImpl.dart';
 import 'package:app_prueba_tecnica/services/sqliteService.dart';
 import 'package:app_prueba_tecnica/views/detalles.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 
 class Citas extends StatefulWidget {
@@ -22,19 +23,29 @@ class CitasState extends State<Citas> {
 
   Future<List<Cita>> getCitas() async {
     citasList = await citaServiceImpl().getCitas();
+    print("get citas");
+    print(citasList);
+    List<Cita> localCitasList = await getLocalCitas();
+    citasList.addAll(localCitasList);
+    print(citasList);
     return citasList;
   }
 
   Future<List<Cita>> getLocalCitas() async {
-    citasList = await SqliteService().getCitas();
-    return citasList;
+    List<Cita> LocalCitasList = await SqliteService().getCitas();
+    if (LocalCitasList.length > 0) {
+      for (Cita cita in LocalCitasList) {
+        Response response = await citaServiceImpl().newCita(cita);
+        if (response.statusCode == 200) {
+          SqliteService().deleteCita(cita.numeroCita);
+        }
+      }
+    }
+    return LocalCitasList;
   }
 
   @override
   Widget build(BuildContext context) {
-    Future<List<Cita>> citasSqlite = getLocalCitas();
-    print("citas sqllite");
-    print(citasSqlite);
     return Scaffold(
       appBar: AppBar(
         title: Text("Citas"),

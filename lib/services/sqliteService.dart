@@ -97,7 +97,7 @@ class SqliteService {
     String path = await getDatabasesPath();
 
     return await openDatabase(
-      join(path, 'pruebaTecnica.db'),
+      join(path, 'pruebaTecnicaDB.db'),
       onCreate: createDB,
       version: 3,
     );

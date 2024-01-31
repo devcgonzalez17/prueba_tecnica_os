@@ -1,13 +1,9 @@
 import 'dart:convert';
 
-import 'package:app_prueba_tecnica/models/citaModel.dart';
 import 'package:app_prueba_tecnica/models/medicoModel.dart';
-import 'package:app_prueba_tecnica/models/pacienteModel.dart';
-import 'package:app_prueba_tecnica/services/citaService.dart';
 import 'package:app_prueba_tecnica/services/medicoService.dart';
 import 'package:app_prueba_tecnica/services/sqliteService.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 
 class medicoServiceImpl extends MedicoService {
   final uriBase = "http://192.168.56.1:8095/osapi";
@@ -40,18 +36,20 @@ class medicoServiceImpl extends MedicoService {
 
   @override
   Future<List<Medico>> getMedicos() async {
+    //print("entro");
     List<Medico> medicosList = [];
     final response = await http.get(Uri.parse("$uriBase/medico")).timeout(
-      const Duration(seconds: 10),
+      const Duration(seconds: 3),
       onTimeout: () {
         // Time has run out, do what you wanted to do.
         return http.Response(
             'Error', 408); // Request Timeout response status code
       },
     );
+    print(response);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body.toString());
-      //print(data);
+      print(data);
       for (Map i in data) {
         Medico medico = Medico(
           i['documento'],
@@ -65,11 +63,12 @@ class medicoServiceImpl extends MedicoService {
         SqliteService().createMedico(medico);
       }
     }
+
     return medicosList;
   }
 
   @override
-  Future<Response> newMedico(Medico c) async {
+  Future<http.Response> newMedico(Medico c) async {
     late Medico medico;
 
     Map<String, dynamic> medicoJson = c.toJson();
@@ -81,7 +80,9 @@ class medicoServiceImpl extends MedicoService {
       },
       body: jsonEncode(medicoJson),
     );
+    /*
     if (response.statusCode == 200) {
+      print(response.body.toString());
       var i = jsonDecode(response.body.toString());
       medico = Medico(
         i['documento'],
@@ -91,7 +92,7 @@ class medicoServiceImpl extends MedicoService {
         i['correoElectronico'],
         i['estado'],
       );
-    }
+    }*/
     return response;
   }
 }

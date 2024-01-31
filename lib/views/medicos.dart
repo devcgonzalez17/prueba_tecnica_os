@@ -21,12 +21,14 @@ class MedicosState extends State<Medicos> {
   List<Medico> medicosList = [];
 
   Future<List<Medico>> getMedicos() async {
+    print("empezo");
     medicosList = await medicoServiceImpl().getMedicos();
+    print(medicosList);
     medicosList = await getLocalMedicos();
+    print(medicosList);
     return medicosList;
   }
 
-  
   Future<List<Medico>> getLocalMedicos() async {
     List<Medico> LocalMedicosList = await SqliteService().getMedicos();
     return LocalMedicosList;

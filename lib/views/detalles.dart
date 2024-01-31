@@ -337,14 +337,14 @@ class Detalles extends StatelessWidget {
       return Scaffold(
         appBar: AppBar(title: const Text('')),
         body: Padding(
-          padding: EdgeInsets.all(20.0),
+          padding: EdgeInsets.all(10.0),
           child: Container(
             child: Column(
               children: [
                 Container(
                   width: double.maxFinite,
-                  padding: EdgeInsets.symmetric(vertical: 15.0),
-                  margin: EdgeInsets.symmetric(vertical: 15.0),
+                  padding: EdgeInsets.symmetric(vertical: 5.0),
+                  margin: EdgeInsets.symmetric(vertical: 5.0),
                   decoration: BoxDecoration(
                       border: Border.all(
                         color: Color.fromARGB(255, 5, 111, 1),
@@ -357,8 +357,8 @@ class Detalles extends StatelessWidget {
                 ),
                 Container(
                   width: double.maxFinite,
-                  padding: EdgeInsets.symmetric(vertical: 15.0),
-                  margin: EdgeInsets.symmetric(vertical: 15.0),
+                  padding: EdgeInsets.symmetric(vertical: 5.0),
+                  margin: EdgeInsets.symmetric(vertical: 5.0),
                   decoration: BoxDecoration(
                       border: Border.all(
                         color: Color.fromARGB(255, 5, 111, 1),
@@ -371,8 +371,8 @@ class Detalles extends StatelessWidget {
                 ),
                 Container(
                   width: double.maxFinite,
-                  padding: EdgeInsets.symmetric(vertical: 15.0),
-                  margin: EdgeInsets.symmetric(vertical: 15.0),
+                  padding: EdgeInsets.symmetric(vertical: 5.0),
+                  margin: EdgeInsets.symmetric(vertical: 5.0),
                   decoration: BoxDecoration(
                       border: Border.all(
                         color: Color.fromARGB(255, 5, 111, 1),
@@ -385,8 +385,8 @@ class Detalles extends StatelessWidget {
                 ),
                 Container(
                   width: double.maxFinite,
-                  padding: EdgeInsets.symmetric(vertical: 15.0),
-                  margin: EdgeInsets.symmetric(vertical: 15.0),
+                  padding: EdgeInsets.symmetric(vertical: 5.0),
+                  margin: EdgeInsets.symmetric(vertical: 5.0),
                   decoration: BoxDecoration(
                       border: Border.all(
                         color: Color.fromARGB(255, 5, 111, 1),
@@ -401,8 +401,8 @@ class Detalles extends StatelessWidget {
                 ),
                 Container(
                   width: double.maxFinite,
-                  padding: EdgeInsets.symmetric(vertical: 15.0),
-                  margin: EdgeInsets.symmetric(vertical: 15.0),
+                  padding: EdgeInsets.symmetric(vertical: 5.0),
+                  margin: EdgeInsets.symmetric(vertical: 5.0),
                   decoration: BoxDecoration(
                       border: Border.all(
                         color: Color.fromARGB(255, 5, 111, 1),
@@ -415,8 +415,8 @@ class Detalles extends StatelessWidget {
                 ),
                 Container(
                   width: double.maxFinite,
-                  padding: EdgeInsets.symmetric(vertical: 15.0),
-                  margin: EdgeInsets.symmetric(vertical: 15.0),
+                  padding: EdgeInsets.symmetric(vertical: 5.0),
+                  margin: EdgeInsets.symmetric(vertical: 5.0),
                   decoration: BoxDecoration(
                       border: Border.all(
                         color: Color.fromARGB(255, 5, 111, 1),
@@ -429,8 +429,8 @@ class Detalles extends StatelessWidget {
                 ),
                 Container(
                   width: double.maxFinite,
-                  padding: EdgeInsets.symmetric(vertical: 15.0),
-                  margin: EdgeInsets.symmetric(vertical: 15.0),
+                  padding: EdgeInsets.symmetric(vertical: 5.0),
+                  margin: EdgeInsets.symmetric(vertical: 5.0),
                   decoration: BoxDecoration(
                       border: Border.all(
                         color: Color.fromARGB(255, 5, 111, 1),
@@ -444,8 +444,8 @@ class Detalles extends StatelessWidget {
                 ),
                 Container(
                   width: double.maxFinite,
-                  padding: EdgeInsets.symmetric(vertical: 15.0),
-                  margin: EdgeInsets.symmetric(vertical: 15.0),
+                  padding: EdgeInsets.symmetric(vertical: 5.0),
+                  margin: EdgeInsets.symmetric(vertical: 5.0),
                   decoration: BoxDecoration(
                       border: Border.all(
                         color: Color.fromARGB(255, 5, 111, 1),

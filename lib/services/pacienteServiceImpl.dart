@@ -4,7 +4,7 @@ import 'package:app_prueba_tecnica/models/pacienteModel.dart';
 import 'package:app_prueba_tecnica/services/pacienteService.dart';
 import 'package:app_prueba_tecnica/services/sqliteService.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
+//import 'package:http/http.dart';
 
 class pacienteServiceImpl extends PacienteService {
   final uriBase = "http://192.168.56.1:8095/osapi";
@@ -70,9 +70,10 @@ class pacienteServiceImpl extends PacienteService {
   }
 
   @override
-  Future<Response> newPaciente(Paciente c) async {
+  Future<http.Response> newPaciente(Paciente c) async {
     late Paciente paciente;
     Map<String, dynamic> pacienteJson = c.toJson();
+    print(pacienteJson);
     final response = await http.post(
       Uri.parse("$uriBase/paciente/create"),
       headers: <String, String>{
@@ -80,6 +81,7 @@ class pacienteServiceImpl extends PacienteService {
       },
       body: jsonEncode(pacienteJson),
     );
+    /*
     if (response.statusCode == 200) {
       var i = jsonDecode(response.body.toString());
       paciente = Paciente(
@@ -92,7 +94,7 @@ class pacienteServiceImpl extends PacienteService {
         i['correoElectronico'],
         i['estado'],
       );
-    }
+    }*/
     return response;
   }
 }

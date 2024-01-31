@@ -1,7 +1,8 @@
 import 'package:app_prueba_tecnica/models/medicoModel.dart';
+import 'package:http/http.dart';
 
 abstract class MedicoService {
   Future<List<Medico>> getMedicos();
-  Future<Medico> newMedico(Medico c);
+  Future<Response> newMedico(Medico c);
   Future<Medico> getMedico(String documento);
 }

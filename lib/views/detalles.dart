@@ -1,8 +1,13 @@
 import 'package:app_prueba_tecnica/forms/formCita.dart';
+import 'package:app_prueba_tecnica/main.dart';
 import 'package:app_prueba_tecnica/models/citaModel.dart';
 import 'package:app_prueba_tecnica/models/medicoModel.dart';
 import 'package:app_prueba_tecnica/models/pacienteModel.dart';
+import 'package:app_prueba_tecnica/services/medicoServiceImpl.dart';
+import 'package:app_prueba_tecnica/services/pacienteServiceImpl.dart';
+import 'package:app_prueba_tecnica/services/sqliteService.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 
 class detallesArguments {
@@ -17,6 +22,10 @@ class Detalles extends StatelessWidget {
   const Detalles({super.key});
 
   static const routeName = '/detalles';
+
+  static const List<String> estados = ["Activo", "Inactivo", "Retirado"];
+
+  static String? dropdownEstadoValue;
 
   @override
   Widget build(BuildContext context) {
@@ -256,13 +265,68 @@ class Detalles extends StatelessWidget {
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                 ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10.0),
+                  child: DropdownMenu<String>(
+                    label: Text("Nuevo estado"),
+                    width: 370.0,
+                    initialSelection: estados.first,
+                    onSelected: (String? value) {
+                      // This is called when the user selects an item.
+
+                      dropdownEstadoValue = value!;
+                    },
+                    dropdownMenuEntries:
+                        estados.map<DropdownMenuEntry<String>>((String value) {
+                      return DropdownMenuEntry<String>(
+                          value: value, label: value);
+                    }).toList(),
+                  ),
+                ),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Processing Data')),
+                      const SnackBar(content: Text('Guardando Cambios')),
                     );
+                    Medico? medico = args.medico;
+                    medico?.estado = dropdownEstadoValue;
+                    Response response =
+                        await medicoServiceImpl().newMedico(medico as Medico);
+
+                    if (response.statusCode == 200) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Guardado correctamente')),
+                      );
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => Home()));
+                    } else {
+                      if (response.statusCode == 408) {
+                        int response2 =
+                            await SqliteService().createMedico(medico);
+                        if (response2 == 200) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Guardado correctamente')),
+                          );
+                          Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) => Home()));
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text(
+                                    "Ha ocurrido un error, intenta mas tarde")),
+                          );
+                        }
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content: Text(
+                                  "Ha ocurrido un error: ${response.body.split("Where")[0]}")),
+                        );
+                      }
+                    }
                   },
-                  child: const Text('Editar'),
+                  child: const Text('Cambiar estado'),
                 ),
               ],
             ),
@@ -392,13 +456,68 @@ class Detalles extends StatelessWidget {
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                 ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10.0),
+                  child: DropdownMenu<String>(
+                    label: Text("Nuevo estado"),
+                    width: 370.0,
+                    initialSelection: estados.first,
+                    onSelected: (String? value) {
+                      // This is called when the user selects an item.
+
+                      dropdownEstadoValue = value!;
+                    },
+                    dropdownMenuEntries:
+                        estados.map<DropdownMenuEntry<String>>((String value) {
+                      return DropdownMenuEntry<String>(
+                          value: value, label: value);
+                    }).toList(),
+                  ),
+                ),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Processing Data')),
+                      const SnackBar(content: Text('Guardando Cambios')),
                     );
+                    Paciente? paciente = args.paciente;
+                    paciente?.estado = dropdownEstadoValue;
+                    Response response = await pacienteServiceImpl()
+                        .newPaciente(paciente as Paciente);
+
+                    if (response.statusCode == 200) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Guardado correctamente')),
+                      );
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => Home()));
+                    } else {
+                      if (response.statusCode == 408) {
+                        int response2 =
+                            await SqliteService().createPaciente(paciente);
+                        if (response2 == 200) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Guardado correctamente')),
+                          );
+                          Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) => Home()));
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text(
+                                    "Ha ocurrido un error, intenta mas tarde")),
+                          );
+                        }
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content: Text(
+                                  "Ha ocurrido un error: ${response.body.split("Where")[0]}")),
+                        );
+                      }
+                    }
                   },
-                  child: const Text('Editar'),
+                  child: const Text('Cambiar estado'),
                 ),
               ],
             ),

@@ -7,6 +7,7 @@ import 'package:app_prueba_tecnica/services/citaService.dart';
 import 'package:app_prueba_tecnica/services/medicoService.dart';
 import 'package:app_prueba_tecnica/services/sqliteService.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 class medicoServiceImpl extends MedicoService {
   final uriBase = "http://192.168.56.1:8095/osapi";
@@ -68,14 +69,17 @@ class medicoServiceImpl extends MedicoService {
   }
 
   @override
-  Future<Medico> newMedico(Medico c) async {
+  Future<Response> newMedico(Medico c) async {
     late Medico medico;
+
+    Map<String, dynamic> medicoJson = c.toJson();
+
     final response = await http.post(
       Uri.parse("$uriBase/medico/create"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<Medico>{c}),
+      body: jsonEncode(medicoJson),
     );
     if (response.statusCode == 200) {
       var i = jsonDecode(response.body.toString());
@@ -88,6 +92,6 @@ class medicoServiceImpl extends MedicoService {
         i['estado'],
       );
     }
-    return medico;
+    return response;
   }
 }
